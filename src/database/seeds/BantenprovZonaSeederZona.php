@@ -20,21 +20,25 @@ class BantenprovZonaSeederZona extends Seeder
 
         $zonas = (object) [
             (object) [
-                'label' => 'Zona 1',
-                'description' => 'Zona 1',
+                'user_id' => '1',
+                'kegiatan_id' => '1',
+                'label' => 'Kegiatan 1',
+                'description' => 'Kegiatan satu'
             ],
             (object) [
-                'label' => 'Zona 2',
-                'description' => 'Zona 2',
+                'user_id' => '2',
+                'kegiatan_id' => '2',
+                'label' => 'Kegiatan 2',
+                'description' => 'Kegiatan dua',
             ]
         ];
 
         foreach ($zonas as $zona) {
             $model = Zona::updateOrCreate(
                 [
+                    'user_id' => $zona->user_id,
+                    'kegiatan_id' => $zona->kegiatan_id,
                     'label' => $zona->label,
-                ],
-                [
                     'description' => $zona->description,
                 ]
             );

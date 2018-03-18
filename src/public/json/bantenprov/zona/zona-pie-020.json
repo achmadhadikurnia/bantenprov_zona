@@ -4,7 +4,7 @@
       "type": "category",
       "region": "Provinsi",
       "name": "Banten",
-      "title": "Zona 1 Provinsi Banten 2010",
+      "title": "Rasio Grup Kesenian 2010 Provinsi Banten",
       "yyyy": "2018"
     },
     "series": [
@@ -27,30 +27,7 @@
       "type": "category",
       "region": "Provinsi",
       "name": "Banten",
-      "title": "Zona 2 Provinsi Banten 2010",
-      "yyyy": "2018"
-    },
-    "series": [
-      {
-        "data": [
-          {"value":6.44,"name":"Kabupaten Pandeglang"},
-          {"value":5.81,"name":"Kabupaten Lebak"},
-          {"value":8.18,"name":"Kabupaten Tangerang"},
-          {"value":6.65,"name":"Kabupaten Serang"},
-          {"value":9.82,"name":"Kota Tangerang"},
-          {"value":9.60,"name":"Kota Cilegon"},
-          {"value":8.56,"name":"Kota Serang"},
-          {"value":11.48,"name":"Kota Tangerang Selatan"}
-        ]
-      }
-    ]
-  },
-  {
-    "xAxis": {
-      "type": "category",
-      "region": "Provinsi",
-      "name": "Banten",
-      "title": "Zona 1 Provinsi Banten 2011",
+      "title": "Rasio Grup Kesenian 2011 Provinsi Banten",
       "yyyy": "2018"
     },
     "series": [
@@ -73,30 +50,7 @@
       "type": "category",
       "region": "Provinsi",
       "name": "Banten",
-      "title": "Zona 1 Provinsi Banten 2012",
-      "yyyy": "2018"
-    },
-    "series": [
-      {
-        "data": [
-          {"value":6.44,"name":"Kabupaten Pandeglang"},
-          {"value":5.81,"name":"Kabupaten Lebak"},
-          {"value":8.18,"name":"Kabupaten Tangerang"},
-          {"value":6.65,"name":"Kabupaten Serang"},
-          {"value":9.82,"name":"Kota Tangerang"},
-          {"value":9.60,"name":"Kota Cilegon"},
-          {"value":8.56,"name":"Kota Serang"},
-          {"value":11.48,"name":"Kota Tangerang Selatan"}
-        ]
-      }
-    ]
-  },
-  {
-    "xAxis": {
-      "type": "category",
-      "region": "Provinsi",
-      "name": "Banten",
-      "title": "Zona 2 Provinsi Banten 2012",
+      "title": "Rasio Grup Kesenian 2012 Provinsi Banten",
       "yyyy": "2018"
     },
     "series": [
@@ -119,7 +73,7 @@
       "type": "category",
       "region": "Provinsi",
       "name": "Banten",
-      "title": "Zona 1 Provinsi Banten 2013",
+      "title": "Rasio Grup Kesenian 2013 Provinsi Banten",
       "yyyy": "2018"
     },
     "series": [
@@ -142,7 +96,7 @@
       "type": "category",
       "region": "Provinsi",
       "name": "Banten",
-      "title": "Zona 2 Provinsi Banten 2013",
+      "title": "Rasio Grup Kesenian 2014 Provinsi Banten",
       "yyyy": "2018"
     },
     "series": [
@@ -165,7 +119,7 @@
       "type": "category",
       "region": "Provinsi",
       "name": "Banten",
-      "title": "Zona 1 Provinsi Banten 2014",
+      "title": "Rasio Grup Kesenian 2015 Provinsi Banten",
       "yyyy": "2018"
     },
     "series": [
@@ -179,29 +133,6 @@
           {"value":9.67,"name":"Kota Cilegon"},
           {"value":8.59,"name":"Kota Serang"},
           {"value":11.57,"name":"Kota Tangerang Selatan"}
-        ]
-      }
-    ]
-  },
-  {
-    "xAxis": {
-      "type": "category",
-      "region": "Provinsi",
-      "name": "Banten",
-      "title": "Zona 2 Provinsi Banten 2014",
-      "yyyy": "2018"
-    },
-    "series": [
-      {
-        "data": [
-          {"value":6.45,"name":"Kabupaten Pandeglang"},
-          {"value":5.84,"name":"Kabupaten Lebak"},
-          {"value":8.20,"name":"Kabupaten Tangerang"},
-          {"value":6.69,"name":"Kabupaten Serang"},
-          {"value":10.20,"name":"Kota Tangerang"},
-          {"value":9.66,"name":"Kota Cilegon"},
-          {"value":8.85,"name":"Kota Serang"},
-          {"value":11.56,"name":"Kota Tangerang Selatan"}
         ]
       }
     ]

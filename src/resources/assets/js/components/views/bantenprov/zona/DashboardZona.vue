@@ -25,7 +25,7 @@
         <div class="card h-100" style="color: #fff; background-color: #009688;">
           <div class="card-header">
             <i class="fa fa-bar-chart" aria-hidden="true"></i>
-            Zona Berdasarkan Wilayah
+            Rasio Grup Kesenian Berdasarkan Wilayah
           </div>
           <div class="card-body">
             <zona-bar-01></zona-bar-01>
@@ -36,7 +36,7 @@
         <div class="card h-100" style="color: #fff; background-color: #FF9800;">
           <div class="card-header">
             <i class="fa fa-pie-chart" aria-hidden="true"></i>
-            Zona Berdasarkan Tahun
+            Rasio Grup Kesenian Berdasarkan Tahun
           </div>
           <div class="card-body">
             <zona-pie-01></zona-pie-01>
@@ -52,7 +52,7 @@
         <div class="card h-100" style="color: #fff; background-color: #F44336;">
           <div class="card-header">
             <i class="fa fa-pie-chart" aria-hidden="true"></i>
-            Zona Berdasarkan Wilayah
+            Rasio Grup Kesenian Berdasarkan Wilayah
           </div>
           <div class="card-body">
             <zona-pie-02></zona-pie-02>
@@ -63,7 +63,7 @@
         <div class="card text-white bg-dark h-100">
           <div class="card-header">
             <i class="fa fa-bar-chart" aria-hidden="true"></i>
-            Zona Berdasarkan Tahun
+            Rasio Grup Kesenian Berdasarkan Tahun
           </div>
           <div class="card-body">
             <zona-bar-02></zona-bar-02>

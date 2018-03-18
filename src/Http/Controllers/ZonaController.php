@@ -5,10 +5,12 @@ namespace Bantenprov\Zona\Http\Controllers;
 /* Require */
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Bantenprov\Zona\Facades\ZonaFacade;
+use Bantenprov\BudgetAbsorption\Facades\ZonaFacade;
 
 /* Models */
 use Bantenprov\Zona\Models\Bantenprov\Zona\Zona;
+use Bantenprov\Kegiatan\Models\Bantenprov\Kegiatan\Kegiatan;
+use App\User;
 
 /* Etc */
 use Validator;
@@ -20,15 +22,21 @@ use Validator;
  * @author  bantenprov <developer.bantenprov@gmail.com>
  */
 class ZonaController extends Controller
-{
+{  
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(Zona $zona)
+    protected $kegiatanModel;
+    protected $zona;
+    protected $user;
+
+    public function __construct(Zona $zona, Kegiatan $kegiatan, User $user)
     {
-        $this->zona = $zona;
+        $this->zona      = $zona;
+        $this->kegiatanModel    = $kegiatan;
+        $this->user             = $user;
     }
 
     /**
@@ -57,6 +65,14 @@ class ZonaController extends Controller
         $perPage = request()->has('per_page') ? (int) request()->per_page : null;
         $response = $query->paginate($perPage);
 
+        foreach($response as $kegiatan){
+            array_set($response->data, 'kegiatan', $kegiatan->kegiatan->label);
+        }
+
+        foreach($response as $user){
+            array_set($response->data, 'user', $user->user->name);
+        }
+
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', 'GET');
@@ -69,12 +85,18 @@ class ZonaController extends Controller
      */
     public function create()
     {
-        $zona = $this->zona;
+        $kegiatan = $this->kegiatanModel->all();
+        $users = $this->user->all();
 
-        $response['zona'] = $zona;
+        foreach($users as $user){
+            array_set($user, 'label', $user->name);
+        }
+
+        $response['kegiatan'] = $kegiatan;
+        $response['user'] = $users;
         $response['status'] = true;
 
-        return response()->json($zona);
+        return response()->json($response);
     }
 
     /**
@@ -88,6 +110,8 @@ class ZonaController extends Controller
         $zona = $this->zona;
 
         $validator = Validator::make($request->all(), [
+            'kegiatan_id' => 'required',
+            'user_id' => 'required',
             'label' => 'required|max:16|unique:zonas,label',
             'description' => 'max:255',
         ]);
@@ -98,6 +122,8 @@ class ZonaController extends Controller
             if ($check > 0) {
                 $response['message'] = 'Failed, label ' . $request->label . ' already exists';
             } else {
+                $zona->kegiatan_id = $request->input('kegiatan_id');
+                $zona->user_id = $request->input('user_id');
                 $zona->label = $request->input('label');
                 $zona->description = $request->input('description');
                 $zona->save();
@@ -105,10 +131,11 @@ class ZonaController extends Controller
                 $response['message'] = 'success';
             }
         } else {
+            $zona->kegiatan_id = $request->input('kegiatan_id');
+            $zona->user_id = $request->input('user_id');
             $zona->label = $request->input('label');
             $zona->description = $request->input('description');
             $zona->save();
-
             $response['message'] = 'success';
         }
 
@@ -128,6 +155,8 @@ class ZonaController extends Controller
         $zona = $this->zona->findOrFail($id);
 
         $response['zona'] = $zona;
+        $response['kegiatan'] = $zona->kegiatan;
+        $response['user'] = $zona->user;
         $response['status'] = true;
 
         return response()->json($response);
@@ -143,7 +172,11 @@ class ZonaController extends Controller
     {
         $zona = $this->zona->findOrFail($id);
 
+        array_set($zona->user, 'label', $zona->user->name);
+
         $response['zona'] = $zona;
+        $response['kegiatan'] = $zona->kegiatan;
+        $response['user'] = $zona->user;
         $response['status'] = true;
 
         return response()->json($response);
@@ -165,11 +198,15 @@ class ZonaController extends Controller
             $validator = Validator::make($request->all(), [
                 'label' => 'required|max:16',
                 'description' => 'max:255',
+                'kegiatan_id' => 'required',
+                'user_id' => 'required',
             ]);
         } else {
             $validator = Validator::make($request->all(), [
                 'label' => 'required|max:16|unique:zonas,label',
                 'description' => 'max:255',
+                'kegiatan_id' => 'required',
+                'user_id' => 'required',
             ]);
         }
 
@@ -181,6 +218,8 @@ class ZonaController extends Controller
             } else {
                 $zona->label = $request->input('label');
                 $zona->description = $request->input('description');
+                $zona->kegiatan_id = $request->input('kegiatan_id');
+                $zona->user_id = $request->input('user_id');
                 $zona->save();
 
                 $response['message'] = 'success';
@@ -188,6 +227,8 @@ class ZonaController extends Controller
         } else {
             $zona->label = $request->input('label');
             $zona->description = $request->input('description');
+            $zona->kegiatan_id = $request->input('kegiatan_id');
+            $zona->user_id = $request->input('user_id');
             $zona->save();
 
             $response['message'] = 'success';

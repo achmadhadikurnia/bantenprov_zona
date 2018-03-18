@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Add Zona
+      <i class="fa fa-table" aria-hidden="true"></i> Add zona
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -25,7 +25,9 @@
               </field-messages>
             </validate>
           </div>
+        </div>
 
+        <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
               <input class="form-control" v-model="model.description" name="description" type="text" placeholder="Description">
@@ -35,13 +37,44 @@
               </field-messages>
             </validate>
           </div>
+        </div>
 
-          <div class="col-auto">
+        <div class="form-row mt-4">
+					<div class="col-md">
+						<validate tag="div">
+						<label for="user_id">Username</label>
+						<v-select name="user_id" v-model="model.user" :options="user" class="mb-4"></v-select>
+
+						<field-messages name="user_id" show="$invalid && $submitted" class="text-danger">
+							<small class="form-text text-success">Looks good!</small>
+							<small class="form-text text-danger" slot="required">username is a required field</small>
+						</field-messages>
+						</validate>
+					</div>
+				</div>
+
+        <div class="form-row mt-4">
+					<div class="col-md">
+						<validate tag="div">
+						<label for="kegiatan">Kegiatan</label>
+						<v-select name="kegiatan" v-model="model.kegiatan" :options="kegiatan" class="mb-4"></v-select>
+
+						<field-messages name="kegiatan" show="$invalid && $submitted" class="text-danger">
+							<small class="form-text text-success">Looks good!</small>
+							<small class="form-text text-danger" slot="required">Label is a required field</small>
+						</field-messages>
+						</validate>
+					</div>
+				</div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
             <button type="submit" class="btn btn-primary">Submit</button>
 
             <button type="reset" class="btn btn-secondary" @click="reset">Reset</button>
           </div>
         </div>
+
       </vue-form>
     </div>
   </div>
@@ -49,13 +82,31 @@
 
 <script>
 export default {
+  mounted(){
+    axios.get('api/zona/create')
+    .then(response => {
+        response.data.kegiatan.forEach(element => {
+          this.kegiatan.push(element);
+        });
+        response.data.user.forEach(user_element => {
+            this.user.push(user_element);
+        });
+    })
+    .catch(function(response) {
+      alert('Break');
+    });
+  },
   data() {
     return {
       state: {},
       model: {
         label: "",
-        description: ""
-      }
+        user: "",
+        description: "",
+        kegiatan: "",
+      },
+      kegiatan: [],
+      user: []
     }
   },
   methods: {
@@ -67,7 +118,9 @@ export default {
       } else {
         axios.post('api/zona', {
             label: this.model.label,
-            description: this.model.description
+            description: this.model.description,
+            kegiatan_id: this.model.kegiatan.id,
+            user_id: this.model.user.id
           })
           .then(response => {
             if (response.data.status == true) {

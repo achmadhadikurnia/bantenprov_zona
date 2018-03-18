@@ -10,8 +10,6 @@
 [![Monthly Downloads](https://poser.pugx.org/bantenprov/zona/d/monthly)](https://packagist.org/packages/bantenprov/zona)
 [![Daily Downloads](https://poser.pugx.org/bantenprov/zona/d/daily)](https://packagist.org/packages/bantenprov/zona)
 
-
-# Zona
 Zona
 
 ### Install via composer
@@ -23,6 +21,10 @@ $ composer require bantenprov/zona:dev-master
 ```
 
 - Latest release:
+
+```bash
+$ composer require bantenprov/zona
+```
 
 ### Download via github
 
@@ -58,7 +60,6 @@ $ php artisan migrate
 
 ```bash
 $ php artisan vendor:publish --tag=zona-seeds
-
 ```
 
 #### Lakukan auto dump :
@@ -88,17 +89,17 @@ $ php artisan vendor:publish --tag=zona-public
     component: layout('Default'),
     children: [
         //== ...
-       {
-        path: '/dashboard/zona',
-        components: {
+        {
+         path: '/dashboard/zona',
+         components: {
             main: resolve => require(['./components/views/bantenprov/zona/DashboardZona.vue'], resolve),
             navbar: resolve => require(['./components/Navbar.vue'], resolve),
             sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
-        },
-        meta: {
+          },
+          meta: {
             title: "Zona"
-        }
-      }
+           }
+       },
         //== ...
     ]
 },
@@ -130,7 +131,7 @@ $ php artisan vendor:publish --tag=zona-public
                 sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
             },
             meta: {
-                title: "Zona"
+                title: "Add Zona"
             }
         },
         {
@@ -141,7 +142,7 @@ $ php artisan vendor:publish --tag=zona-public
                 sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
             },
             meta: {
-                title: "Zona"
+                title: "View Zona"
             }
         },
         {
@@ -152,7 +153,7 @@ $ php artisan vendor:publish --tag=zona-public
                 sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
             },
             meta: {
-                title: "Zona"
+                title: "Edit Zona"
             }
         },
         //== ...
@@ -169,10 +170,10 @@ $ php artisan vendor:publish --tag=zona-public
     childItem: [
         //== ...
         {
-          name: 'Zona',
-          link: '/dashboard/zona',
-          icon: 'fa fa-angle-double-right'
-      }
+        name: 'Zona',
+        link: '/dashboard/zona',
+        icon: 'fa fa-angle-double-right'
+        },
         //== ...
     ]
 },
@@ -186,10 +187,10 @@ $ php artisan vendor:publish --tag=zona-public
     childItem: [
         //== ...
         {
-            name: 'Zona',
-            link: '/admin/zona',
-            icon: 'fa fa-angle-double-right'
-          }
+        name: 'Zona',
+        link: '/admin/zona',
+        icon: 'fa fa-angle-double-right'
+        },
         //== ...
     ]
 },
@@ -198,22 +199,21 @@ $ php artisan vendor:publish --tag=zona-public
 #### Tambahkan components `resources/assets/js/components.js` :
 
 ```javascript
-
-//== Example Vuetable
+//== Zona
 
 import Zona from './components/bantenprov/zona/Zona.chart.vue';
 Vue.component('echarts-zona', Zona);
 
 import ZonaKota from './components/bantenprov/zona/ZonaKota.chart.vue';
-Vue.component('echarts-dpp-bank-dinia-kota', ZonaKota);
+Vue.component('echarts-zona-kota', ZonaKota);
 
 import ZonaTahun from './components/bantenprov/zona/ZonaTahun.chart.vue';
-Vue.component('echarts-dpp-bank-dinia-tahun', ZonaTahun);
+Vue.component('echarts-zona-tahun', ZonaTahun);
 
 import ZonaAdminShow from './components/bantenprov/zona/ZonaAdmin.show.vue';
 Vue.component('admin-view-zona-tahun', ZonaAdminShow);
 
-//== Echarts Zona
+//== Echarts Group Egoverment
 
 import ZonaBar01 from './components/views/bantenprov/zona/ZonaBar01.vue';
 Vue.component('zona-bar-01', ZonaBar01);
@@ -232,5 +232,10 @@ import ZonaPie02 from './components/views/bantenprov/zona/ZonaPie02.vue';
 Vue.component('zona-pie-02', ZonaPie02);
 
 //== mini pie charts
+
+
 import ZonaPie03 from './components/views/bantenprov/zona/ZonaPie03.vue';
 Vue.component('zona-pie-03', ZonaPie03);
+
+```
+
