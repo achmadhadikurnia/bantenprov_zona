@@ -63,15 +63,7 @@ class ZonaController extends Controller
         }
 
         $perPage = request()->has('per_page') ? (int) request()->per_page : null;
-        $response = $query->paginate($perPage);
-
-        foreach($response as $kegiatan){
-            array_set($response->data, 'kegiatan', $kegiatan->kegiatan->label);
-        }
-
-        foreach($response as $user){
-            array_set($response->data, 'user', $user->user->name);
-        }
+        $response = $query->with('kegiatan')->with('user')->paginate($perPage);
 
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
