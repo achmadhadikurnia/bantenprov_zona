@@ -136,6 +136,9 @@ export default {
   mounted(){
     axios.get('api/zona/create')
     .then(response => {
+      if (response.data.status == true) {
+        this.model.user = response.data.current_user;
+
         response.data.siswa.forEach(element => {
           this.siswa.push(element);
         });
@@ -145,6 +148,9 @@ export default {
         });
       }else{
         this.user.push(response.data.user);
+       }
+      } else {
+        alert('Failed');
       }
     })
     .catch(function(response) {
