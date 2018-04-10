@@ -16,15 +16,20 @@ class Zona extends Model
         'deleted_at'
     ];
     protected $fillable = [
-        'kegiatan_id',
         'user_id',
-        'label',
-        'description'
+        'master_zona_id',
+        'nomor_un',
+        'sekolah_id',
+        'zona_siswa',
+        'zona_sekolah',
+        'lokasi_siswa',
+        'lokasi_sekolah',
+        'nilai_zona'
     ];
 
-    public function kegiatan()
+    public function siswa()
     {
-        return $this->belongsTo('Bantenprov\Kegiatan\Models\Bantenprov\Kegiatan\Kegiatan','kegiatan_id');
+        return $this->belongsTo('Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa','nomor_un','nomor_un');
     }
 
     public function user()
