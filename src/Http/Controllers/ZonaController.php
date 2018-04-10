@@ -244,7 +244,7 @@ class ZonaController extends Controller
                         }                
                     } 
 
-             $check_user     = $this->zona->where('id','!=', $id)->where('user_id', $request->user_id);
+             $check_user  = $this->zona->where('id','!=', $id)->where('user_id', $request->user_id);
              $check_siswa = $this->zona->where('id','!=', $id)->where('nomor_un', $request->nomor_un);
 
              if($check_user->count() > 0 || $check_siswa->count() > 0){
@@ -276,9 +276,10 @@ class ZonaController extends Controller
                 $zona->nilai_zona = $request->input('nilai_zona');
                 $zona->save();
 
-                $response['status'] = true;
+                $response['message'] = 'success';
+            }
 
-        }
+                $response['status'] = true;
 
         return response()->json($response);
     }
