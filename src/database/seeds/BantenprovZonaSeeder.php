@@ -46,8 +46,8 @@ class BantenprovZonaSeeder extends Seeder
         	$this->model->create([
             	'user_id' => $data['user_id'],
 				'master_zona_id' => $data['master_zona_id'],
-				'siswa_id' => $data['siswa_id'],
 				'nomor_un' => $data['nomor_un'],
+				'sekolah_id' => $data['sekolah_id'],
                 'zona_siswa' => $data['zona_siswa'],
                 'zona_sekolah' => $data['zona_sekolah'],
                 'lokasi_siswa' => $data['lokasi_siswa'],
@@ -65,19 +65,19 @@ class BantenprovZonaSeeder extends Seeder
 			echo"\n";
 			$this->orangeText('master_zona_id : ').$this->greenText($data['master_zona_id']);
 			echo"\n";
-			$this->orangeText('siswa_id : ').$this->greenText($data['siswa_id']);
-			echo"\n";
 			$this->orangeText('nomor_un : ').$this->greenText($data['nomor_un']);
 			echo"\n";
-            this->orangeText('zona_siswa : ').$this->greenText($data['zona_siswa']);
+			$this->orangeText('sekolah_id : ').$this->greenText($data['sekolah_id']);
+			echo"\n";
+            $this->orangeText('zona_siswa : ').$this->greenText($data['zona_siswa']);
             echo"\n";
-            this->orangeText('zona_sekolah : ').$this->greenText($data['zona_sekolah']);
+            $this->orangeText('zona_sekolah : ').$this->greenText($data['zona_sekolah']);
             echo"\n";
-            this->orangeText('lokasi_siswa : ').$this->greenText($data['lokasi_siswa']);
+            $this->orangeText('lokasi_siswa : ').$this->greenText($data['lokasi_siswa']);
             echo"\n";
-            this->orangeText('lokasi_sekolah : ').$this->greenText($data['lokasi_sekolah']);
+            $this->orangeText('lokasi_sekolah : ').$this->greenText($data['lokasi_sekolah']);
             echo"\n";
-            this->orangeText('nilai_zona : ').$this->greenText($data['nilai_zona']);
+            $this->orangeText('nilai_zona : ').$this->greenText($data['nilai_zona']);
             echo"\n";
 
             
@@ -108,8 +108,8 @@ class BantenprovZonaSeeder extends Seeder
         while(($data = fgetcsv($file, 1000, ",")) !== FALSE){
             $all_data[] = ['user_id' => $data[0],
                            'master_zona_id' => $data[1],
-                           'siswa_id' => $data[2],
-                           'nomor_un' => $data[3],
+                           'nomor_un' => $data[2],
+                           'sekolah_id' => $data[3],
                            'zona_siswa' => $data[4],
                            'zona_sekolah' => $data[5],
                            'lokasi_siswa' => $data[6],
