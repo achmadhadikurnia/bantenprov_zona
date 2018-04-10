@@ -45,9 +45,14 @@ class BantenprovZonaSeeder extends Seeder
             
         	$this->model->create([
             	'user_id' => $data['user_id'],
-				'kegiatan_id' => $data['kegiatan_id'],
-				'label' => $data['label'],
-				'description' => $data['description'],
+				'master_zona_id' => $data['master_zona_id'],
+				'siswa_id' => $data['siswa_id'],
+				'nomor_un' => $data['nomor_un'],
+                'zona_siswa' => $data['zona_siswa'],
+                'zona_sekolah' => $data['zona_sekolah'],
+                'lokasi_siswa' => $data['lokasi_siswa'],
+                'lokasi_sekolah' => $data['lokasi_sekolah'],
+                'nilai_zona' => $data['nilai_zona'],
 
         	]);
         
@@ -58,12 +63,25 @@ class BantenprovZonaSeeder extends Seeder
             echo "============[DATA]============\n";
             $this->orangeText('user_id : ').$this->greenText($data['user_id']);
 			echo"\n";
-			$this->orangeText('kegiatan_id : ').$this->greenText($data['kegiatan_id']);
+			$this->orangeText('master_zona_id : ').$this->greenText($data['master_zona_id']);
 			echo"\n";
-			$this->orangeText('label : ').$this->greenText($data['label']);
+			$this->orangeText('siswa_id : ').$this->greenText($data['siswa_id']);
 			echo"\n";
-			$this->orangeText('description : ').$this->greenText($data['description']);
+			$this->orangeText('nomor_un : ').$this->greenText($data['nomor_un']);
 			echo"\n";
+            this->orangeText('zona_siswa : ').$this->greenText($data['zona_siswa']);
+            echo"\n";
+            this->orangeText('zona_sekolah : ').$this->greenText($data['zona_sekolah']);
+            echo"\n";
+            this->orangeText('lokasi_siswa : ').$this->greenText($data['lokasi_siswa']);
+            echo"\n";
+            this->orangeText('lokasi_sekolah : ').$this->greenText($data['lokasi_sekolah']);
+            echo"\n";
+            this->orangeText('nilai_zona : ').$this->greenText($data['nilai_zona']);
+            echo"\n";
+
+            
+            
         
             echo "============[DATA]============\n\n";
         }
@@ -88,7 +106,16 @@ class BantenprovZonaSeeder extends Seeder
         $all_data = array();
         $row = 1;
         while(($data = fgetcsv($file, 1000, ",")) !== FALSE){
-            $all_data[] = ['user_id' => $data[0],'kegiatan_id' => $data[1],'label' => $data[2],'description' => $data[3],];
+            $all_data[] = ['user_id' => $data[0],
+                           'master_zona_id' => $data[1],
+                           'siswa_id' => $data[2],
+                           'nomor_un' => $data[3],
+                           'zona_siswa' => $data[4],
+                           'zona_sekolah' => $data[5],
+                           'lokasi_siswa' => $data[6],
+                           'lokasi_sekolah' => $data[7],
+                           'nilai_zona' => $data[8],
+                          ];
         }
         fclose($file);
         return  $all_data;

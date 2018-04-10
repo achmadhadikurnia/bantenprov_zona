@@ -92,27 +92,27 @@ export default {
           dataClass: 'right aligned'
         },
         {
-          name: 'label',
-          title: 'Label',
-          sortField: 'label',
+          name: 'siswa.nama_siswa',
+          title: 'Nama Siswa',
+          sortField: 'nomor_un',
+          titleClass: 'center aligned'
+        },
+        {
+          name: 'master_zona_id',
+          title: 'Master Zona ID',
+          sortField: 'master_zona_id',
+          titleClass: 'center aligned'
+        },
+        {
+          name: 'sekolah_id',
+          title: 'Sekolah ID',
+          sortField: 'sekolah_id',
           titleClass: 'center aligned'
         },
         {
           name: 'user.name',
           title: 'Username',
           sortField: 'user_id',
-          titleClass: 'center aligned'
-        },
-        {
-          name: 'kegiatan.label',
-          title: 'Kegiatan',
-          sortField: 'kegiatan_id',
-          titleClass: 'center aligned'
-        },
-        {
-          name: 'description',
-          title: 'Description',
-          sortField: 'description',
           titleClass: 'center aligned'
         },
         {
@@ -123,7 +123,7 @@ export default {
         },
       ],
       sortOrder: [{
-        field: 'label',
+        field: 'id',
         direction: 'asc'
       }],
       moreParams: {},
