@@ -23,7 +23,7 @@
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <b>Master Zona :</b> {{ model.master_zona }}
+            <b>Master Zona :</b> {{ model.master_zona.label }}
           </div>
         </div>
 

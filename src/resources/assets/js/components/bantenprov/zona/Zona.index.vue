@@ -6,7 +6,7 @@
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
           <button class="btn btn-primary btn-sm" role="button" @click="createRow">
-          	<i class="fa fa-plus" aria-hidden="true"></i>
+            <i class="fa fa-plus" aria-hidden="true"></i>
           </button>
         </li>
       </ul>
@@ -98,8 +98,8 @@ export default {
           titleClass: 'center aligned'
         },
         {
-          name: 'master_zona_id',
-          title: 'Master Zona ID',
+          name: 'master_zona.label',
+          title: 'Master Zona',
           sortField: 'master_zona_id',
           titleClass: 'center aligned'
         },
