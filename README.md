@@ -72,6 +72,7 @@ $ composer dump-autoload
 
 ```bash
 $ php artisan db:seed --class=BantenprovZonaSeeder
+$ php artisan db:seed --class=BantenprovMasterZonaSeeder
 ```
 
 #### Lakukan publish component vue :
@@ -100,6 +101,17 @@ $ php artisan vendor:publish --tag=zona-public
             title: "Zona"
            }
        },
+       {
+        path: '/dashboard/master-zona',
+        components: {
+            main: resolve => require(['./components/views/bantenprov/zona/master-zona/DashboardMasterZona.vue'], resolve),
+            navbar: resolve => require(['./components/Navbar.vue'], resolve),
+            sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+        },
+        meta: {
+            title: "Master Zona"
+        }
+      },
         //== ...
     ]
 },
@@ -156,6 +168,50 @@ $ php artisan vendor:publish --tag=zona-public
                 title: "Edit Zona"
             }
         },
+        {
+            path: '/admin/master-zona',
+            components: {
+                main: resolve => require(['./components/bantenprov/zona/master-zona/MasterZona.index.vue'], resolve),
+                navbar: resolve => require(['./components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Master Zona"
+            }
+        },
+        {
+            path: '/admin/master-zona/create',
+            components: {
+                main: resolve => require(['./components/bantenprov/zona/master-zona/MasterZona.add.vue'], resolve),
+                navbar: resolve => require(['./components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Add Master Zona"
+            }
+        },
+        {
+            path: '/admin/master-zona/:id',
+            components: {
+                main: resolve => require(['./components/bantenprov/zona/master-zona/MasterZona.show.vue'], resolve),
+                navbar: resolve => require(['./components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "View Master Zona"
+            }
+        },
+        {
+            path: '/admin/master-zona/:id/edit',
+            components: {
+                main: resolve => require(['./components/bantenprov/zona/master-zona/MasterZona.edit.vue'], resolve),
+                navbar: resolve => require(['./components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Edit Master Zona"
+            }
+        },
         //== ...
     ]
 },
@@ -174,6 +230,11 @@ $ php artisan vendor:publish --tag=zona-public
         link: '/dashboard/zona',
         icon: 'fa fa-angle-double-right'
         },
+        {
+        name: 'Master Zona',
+        link: '/dashboard/master-zona',
+        icon: 'fa fa-angle-double-right'
+      },
         //== ...
     ]
 },
@@ -191,6 +252,11 @@ $ php artisan vendor:publish --tag=zona-public
         link: '/admin/zona',
         icon: 'fa fa-angle-double-right'
         },
+        {
+        name: 'Master Zona',
+        link: '/admin/master-zona',
+        icon: 'fa fa-angle-double-right'
+      },
         //== ...
     ]
 },
