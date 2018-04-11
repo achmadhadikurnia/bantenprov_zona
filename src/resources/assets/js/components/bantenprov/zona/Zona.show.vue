@@ -23,7 +23,7 @@
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <b>Master Zona ID :</b> {{ model.master_zona_id }}
+            <b>Master Zona :</b> {{ model.master_zona }}
           </div>
         </div>
 
@@ -87,7 +87,7 @@ export default {
         if (response.data.status == true) {
           this.model.user = response.data.user;
           this.model.siswa = response.data.siswa;
-          this.model.master_zona_id  = response.data.zona.master_zona_id;
+          this.model.master_zona  = response.data.master_zona;
           this.model.sekolah_id  = response.data.zona.sekolah_id;
           this.model.zona_siswa  = response.data.zona.zona_siswa;
           this.model.zona_sekolah  = response.data.zona.zona_sekolah;
@@ -111,7 +111,7 @@ export default {
       state: {},
       model: {
         user : "",
-        master_zona_id: "",
+        master_zona: "",
         siswa: "",
         sekolah_id : "",
         zona_siswa: "",
@@ -123,7 +123,8 @@ export default {
         updated_at: ""
       },
       user: [],
-      siswa: []
+      siswa: [],
+      master_zona: []
     }
   },
   methods: {

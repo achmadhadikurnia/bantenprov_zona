@@ -32,6 +32,11 @@ class Zona extends Model
         return $this->belongsTo('Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa','nomor_un','nomor_un');
     }
 
+    public function master_zona()
+    {
+        return $this->belongsTo('Bantenprov\Zona\Models\Bantenprov\Zona\MasterZona','master_zona_id');
+    }
+
     public function user()
     {
         return $this->belongsTo('App\User','user_id');

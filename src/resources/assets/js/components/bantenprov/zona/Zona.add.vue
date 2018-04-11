@@ -29,16 +29,19 @@
           </div>
         </div>
 
-          <validate tag="div">
-          <div class="form-group">
-            <label for="model-master_zona_id">Master Zona ID</label>
-            <input type="text" class="form-control" id="model-master_zona_id" v-model="model.master_zona_id" name="master_zona_id" placeholder="Sekolah ID" required>
+          <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+            <label for="master_zona_id">Master Zona</label>
+            <v-select name="master_zona_id" v-model="model.master_zona" :options="master_zona" class="mb-4"></v-select>
+
             <field-messages name="master_zona_id" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Master Zona ID is a required field</small>
+              <small class="form-text text-danger" slot="required">Master Zona is a required field</small>
             </field-messages>
+            </validate>
           </div>
-        </validate>
+        </div>
 
         <validate tag="div">
           <div class="form-group">
@@ -142,6 +145,11 @@ export default {
         response.data.siswa.forEach(element => {
           this.siswa.push(element);
         });
+
+        response.data.master_zona.forEach(element => {
+          this.master_zona.push(element);
+        });
+
     if(response.data.user_special == true){
         response.data.user.forEach(user_element => {
           this.user.push(user_element);
@@ -162,7 +170,7 @@ export default {
       state: {},
       model: {
         user : "",
-        master_zona_id: "",
+        master_zona: "",
         siswa: "",
         sekolah_id : "",
         zona_siswa: "",
@@ -172,7 +180,8 @@ export default {
         nilai_zona: "",
       },
       user: [],
-      siswa: []
+      siswa: [],
+      master_zona: []
     }
   },
   methods: {
@@ -184,7 +193,7 @@ export default {
       } else {
         axios.post('api/zona', {
             user_id : this.model.user.id,
-            master_zona_id : this.model.master_zona_id,
+            master_zona_id : this.model.master_zona.id,
             siswa_id : this.model.siswa.id,
             nomor_un: this.model.siswa.nomor_un,
             sekolah_id : this.model.sekolah_id,
