@@ -43,16 +43,19 @@
           </div>
         </div>
 
-        <validate tag="div">
-          <div class="form-group">
-            <label for="model-sekolah_id">Sekolah ID</label>
-            <input type="text" class="form-control" id="model-sekolah_id" v-model="model.sekolah_id" name="sekolah_id" placeholder="Sekolah ID" required>
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+            <label for="sekolah_id">Sekolah</label>
+            <v-select name="sekolah_id" v-model="model.sekolah" :options="sekolah" class="mb-4"></v-select>
+
             <field-messages name="sekolah_id" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Sekolah ID is a required field</small>
+              <small class="form-text text-danger" slot="required">Sekolah is a required field</small>
             </field-messages>
+            </validate>
           </div>
-        </validate>
+        </div>
 
         <validate tag="div">
           <div class="form-group">
@@ -150,6 +153,10 @@ export default {
           this.master_zona.push(element);
         });
 
+        response.data.sekolah.forEach(element => {
+          this.sekolah.push(element);
+        });
+
     if(response.data.user_special == true){
         response.data.user.forEach(user_element => {
           this.user.push(user_element);
@@ -172,7 +179,7 @@ export default {
         user : "",
         master_zona: "",
         siswa: "",
-        sekolah_id : "",
+        sekolah: "",
         zona_siswa: "",
         zona_sekolah : "",
         lokasi_siswa: "",
@@ -181,7 +188,8 @@ export default {
       },
       user: [],
       siswa: [],
-      master_zona: []
+      master_zona: [],
+      sekolah: []
     }
   },
   methods: {
@@ -196,7 +204,7 @@ export default {
             master_zona_id : this.model.master_zona.id,
             siswa_id : this.model.siswa.id,
             nomor_un: this.model.siswa.nomor_un,
-            sekolah_id : this.model.sekolah_id,
+            sekolah_id : this.model.sekolah.id,
             zona_siswa : this.model.zona_siswa,
             zona_sekolah : this.model.zona_sekolah,
             lokasi_siswa : this.model.lokasi_siswa,
@@ -224,7 +232,6 @@ export default {
       axios.get('api/zona/create')
         .then(response => {
           if (response.data.status == true) {
-            this.model.sekolah_id  = response.data.zona.sekolah_id;
             this.model.zona_siswa  = response.data.zona.zona_siswa;
             this.model.zona_sekolah  = response.data.zona.zona_sekolah;
             this.model.lokasi_siswa  = response.data.zona.lokasi_siswa;
