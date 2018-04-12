@@ -11,6 +11,7 @@ use Bantenprov\BudgetAbsorption\Facades\ZonaFacade;
 use Bantenprov\Zona\Models\Bantenprov\Zona\Zona;
 use Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa;
 use Bantenprov\Zona\Models\Bantenprov\Zona\MasterZona;
+use Bantenprov\Sekolah\Models\Bantenprov\Sekolah\Sekolah;
 use App\User;
 
 /* Etc */
@@ -32,14 +33,16 @@ class ZonaController extends Controller
     protected $siswa;
     protected $zona;
     protected $master_zona;
+    protected $sekolah;
     protected $user;
 
-    public function __construct(Zona $zona, Siswa $siswa, User $user, MasterZona $master_zona)
+    public function __construct(Zona $zona, Siswa $siswa, User $user, MasterZona $master_zona, Sekolah $sekolah)
     {
         $this->zona             = $zona;
         $this->siswa            = $siswa;
         $this->user             = $user;
         $this->master_zona      = $master_zona;
+        $this->sekolah          = $sekolah;
     }
 
     /**
@@ -66,7 +69,7 @@ class ZonaController extends Controller
         }
 
         $perPage = request()->has('per_page') ? (int) request()->per_page : null;
-        $response = $query->with('siswa')->with('master_zona')->with('user')->paginate($perPage);
+        $response = $query->with('siswa')->with('master_zona')->with('sekolah')->with('user')->paginate($perPage);
 
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
@@ -83,6 +86,7 @@ class ZonaController extends Controller
         $response = [];
         $siswas = $this->siswa->all();
         $master_zonas = $this->master_zona->all();
+        $sekolahs = $this->sekolah->all();
         $users_special = $this->user->all();
         $users_standar = $this->user->find(\Auth::User()->id);
         $current_user = \Auth::User();
@@ -110,6 +114,7 @@ class ZonaController extends Controller
         $response['siswa'] = $siswas;
         $response['current_user'] = $current_user;
         $response['master_zona'] = $master_zonas;
+        $response['sekolah'] = $sekolahs;
         $response['status'] = true;
 
         return response()->json($response);
@@ -188,6 +193,7 @@ class ZonaController extends Controller
 
         $response['zona'] = $zona;
         $response['master_zona'] = $zona->master_zona;
+        $response['sekolah'] = $zona->sekolah;
         $response['siswa'] = $zona->siswa;
         $response['user'] = $zona->user;
         $response['status'] = true;
@@ -210,6 +216,7 @@ class ZonaController extends Controller
 
         $response['zona'] = $zona;
         $response['master_zona'] = $zona->master_zona;
+        $response['sekolah'] = $zona->sekolah;
         $response['siswa'] = $zona->siswa;
         $response['user'] = $zona->user;
         $response['status'] = true;
@@ -254,8 +261,9 @@ class ZonaController extends Controller
              $check_user  = $this->zona->where('id','!=', $id)->where('user_id', $request->user_id);
              $check_siswa = $this->zona->where('id','!=', $id)->where('nomor_un', $request->nomor_un);
              $check_master_zona = $this->zona->where('id','!=', $id)->where('master_zona_id', $request->master_zona_id);
+             $check_sekolah = $this->zona->where('id','!=', $id)->where('sekolah_id', $request->sekolah_id);
 
-             if($check_user->count() > 0 || $check_siswa->count() > 0 || $check_master_zona->count() > 0){
+             if($check_user->count() > 0 || $check_siswa->count() > 0 || $check_master_zona->count() > 0 || $check_sekolah->count() > 0){
                   $response['message'] = implode("\n",$message);
         } else {
             $zona->user_id = $request->input('user_id');
