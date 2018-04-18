@@ -18,10 +18,10 @@ class CreateZonasTable extends Migration
 			$table->integer('master_zona_id');
 			$table->integer('nomor_un');
 			$table->integer('sekolah_id');
-			$table->integer('zona_siswa');
-			$table->integer('zona_sekolah');
-			$table->integer('lokasi_siswa');
-			$table->integer('lokasi_sekolah');
+			$table->integer('zona_siswa')->nullable();
+			$table->integer('zona_sekolah')->nullable();
+			$table->integer('lokasi_siswa')->nullable();
+			$table->integer('lokasi_sekolah')->nullable();
 			$table->integer('nilai_zona');
 			$table->timestamps();
 			$table->softDeletes();

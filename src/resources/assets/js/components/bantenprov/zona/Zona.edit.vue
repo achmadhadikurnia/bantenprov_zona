@@ -57,7 +57,7 @@
           </div>
         </div>
 
-        <validate tag="div">
+        <!-- <validate tag="div">
           <div class="form-group">
             <label for="model-zona_siswa">Zona Siswa</label>
             <input type="text" class="form-control" id="model-zona_siswa" v-model="model.zona_siswa" name="zona_siswa" placeholder="Zona Siswa" required>
@@ -99,7 +99,7 @@
               <small class="form-text text-danger" slot="required">Lokasi Sekolah is a required field</small>
             </field-messages>
           </div>
-        </validate>
+        </validate> -->
 
         <validate tag="div">
           <div class="form-group">
