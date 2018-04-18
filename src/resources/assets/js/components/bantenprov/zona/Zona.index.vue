@@ -104,15 +104,9 @@ export default {
           titleClass: 'center aligned'
         },
         {
-          name: 'zona_sekolah',
-          title: 'Zona Sekolah',
-          sortField: 'zona_sekolah',
-          titleClass: 'center aligned'
-        },
-        {
-          name: 'master_zona.label',
-          title: 'Master Zona',
-          sortField: 'master_zona_id',
+          name: 'lokasi_siswa',
+          title: 'Lokasi Siswa',
+          sortField: 'lokasi_siswa',
           titleClass: 'center aligned'
         },
         {

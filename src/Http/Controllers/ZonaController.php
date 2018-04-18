@@ -107,8 +107,15 @@ class ZonaController extends Controller
 
         array_set($current_user, 'label', $current_user->name);
 
+        foreach($sekolahs as $sekolah){
+            array_set($sekolah, 'lokasi_sekolah', $sekolah->village_id);
+            array_set($sekolah, 'zona_sekolah', substr($sekolah->village_id,0,4));
+        }
+
         foreach($siswas as $siswa){
             array_set($siswa, 'label', $siswa->nama_siswa);
+            array_set($siswa, 'lokasi_siswa', $siswa->village_id);
+            array_set($siswa, 'zona_siswa', substr($siswa->village_id,0,4));
         }
 
         $response['siswa'] = $siswas;
@@ -129,10 +136,10 @@ class ZonaController extends Controller
     public function store(Request $request)
     {
         $zona = $this->zona;
+        
 
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|unique:zonas,user_id',
-            'master_zona_id' => 'required|unique:zonas,master_zona_id',
             'nomor_un' => 'required|unique:zonas,nomor_un',
             'sekolah_id' => 'required',
             'zona_siswa' => 'required',
@@ -143,13 +150,12 @@ class ZonaController extends Controller
         ]);
 
         if($validator->fails()){
-            $check = $zona->where('user_id',$request->user_id)->orWhere('nomor_un',$request->nomor_un)->orWhere('master_zona_id',$request->master_zona_id)->whereNull('deleted_at')->count();
+            $check = $zona->where('user_id',$request->user_id)->orWhere('nomor_un',$request->nomor_un)->whereNull('deleted_at')->count();
 
             if ($check > 0) {
-                $response['message'] = 'Failed ! Username, Master Zona, Nama Siswa already exists';
+                $response['message'] = 'Failed ! Username, Nama Siswa already exists';
             } else {
                 $zona->user_id = $request->input('user_id');
-                $zona->master_zona_id = $request->input('master_zona_id');
                 $zona->nomor_un = $request->input('nomor_un');
                 $zona->sekolah_id = $request->input('sekolah_id');
                 $zona->zona_siswa = $request->input('zona_siswa');
@@ -158,12 +164,13 @@ class ZonaController extends Controller
                 $zona->lokasi_sekolah = $request->input('lokasi_sekolah');
                 $zona->nilai_zona = $request->input('nilai_zona');
                 $zona->save();
+
+                
 
                 $response['message'] = 'success';
             }
         } else {
             $zona->user_id = $request->input('user_id');
-                $zona->master_zona_id = $request->input('master_zona_id');
                 $zona->nomor_un = $request->input('nomor_un');
                 $zona->sekolah_id = $request->input('sekolah_id');
                 $zona->zona_siswa = $request->input('zona_siswa');
@@ -173,6 +180,7 @@ class ZonaController extends Controller
                 $zona->nilai_zona = $request->input('nilai_zona');
                 $zona->save();
 
+               
             $response['message'] = 'success';
         }
 
@@ -240,7 +248,6 @@ class ZonaController extends Controller
 
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|unique:zonas,user_id,'.$id,
-            'master_zona_id' => 'required|unique:zonas,master_zona_id,'.$id,
             'nomor_un' => 'required|unique:zonas,nomor_un,'.$id,
             'sekolah_id' => 'required',
             'zona_siswa' => 'required',
@@ -260,14 +267,12 @@ class ZonaController extends Controller
 
              $check_user  = $this->zona->where('id','!=', $id)->where('user_id', $request->user_id);
              $check_siswa = $this->zona->where('id','!=', $id)->where('nomor_un', $request->nomor_un);
-             $check_master_zona = $this->zona->where('id','!=', $id)->where('master_zona_id', $request->master_zona_id);
              $check_sekolah = $this->zona->where('id','!=', $id)->where('sekolah_id', $request->sekolah_id);
 
-             if($check_user->count() > 0 || $check_siswa->count() > 0 || $check_master_zona->count() > 0 || $check_sekolah->count() > 0){
+             if($check_user->count() > 0 || $check_siswa->count() > 0 || $check_sekolah->count() > 0){
                   $response['message'] = implode("\n",$message);
         } else {
             $zona->user_id = $request->input('user_id');
-                $zona->master_zona_id = $request->input('master_zona_id');
                 $zona->nomor_un = $request->input('nomor_un');
                 $zona->sekolah_id = $request->input('sekolah_id');
                 $zona->zona_siswa = $request->input('zona_siswa');
@@ -282,7 +287,6 @@ class ZonaController extends Controller
 
         } else {
             $zona->user_id = $request->input('user_id');
-                $zona->master_zona_id = $request->input('master_zona_id');
                 $zona->nomor_un = $request->input('nomor_un');
                 $zona->sekolah_id = $request->input('sekolah_id');
                 $zona->zona_siswa = $request->input('zona_siswa');

@@ -15,7 +15,6 @@ class CreateZonasTable extends Migration
 		Schema::create('zonas', function(Blueprint $table) {
 			$table->increments('id');
 			$table->integer('user_id');
-			$table->integer('master_zona_id');
 			$table->integer('nomor_un');
 			$table->integer('sekolah_id');
 			$table->integer('zona_siswa')->nullable();
