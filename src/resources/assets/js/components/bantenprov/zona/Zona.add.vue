@@ -29,20 +29,6 @@
           </div>
         </div>
 
-          <div class="form-row mt-4">
-          <div class="col-md">
-            <validate tag="div">
-            <label for="master_zona_id">Master Zona</label>
-            <v-select name="master_zona_id" v-model="model.master_zona" :options="master_zona" class="mb-4"></v-select>
-
-            <field-messages name="master_zona_id" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Master Zona is a required field</small>
-            </field-messages>
-            </validate>
-          </div>
-        </div>
-
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
@@ -56,50 +42,6 @@
             </validate>
           </div>
         </div>
-
-        <!-- <validate tag="div">
-          <div class="form-group">
-            <label for="model-zona_siswa">Zona Siswa</label>
-            <input type="text" class="form-control" id="model-zona_siswa" v-model="model.zona_siswa" name="zona_siswa" placeholder="Zona Siswa" required>
-            <field-messages name="zona_siswa" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Zona Siswa is a required field</small>
-            </field-messages>
-          </div>
-        </validate>
-
-        <validate tag="div">
-          <div class="form-group">
-            <label for="model-zona_sekolah">Zona Sekolah</label>
-            <input type="text" class="form-control" id="model-zona_sekolah" v-model="model.zona_sekolah" name="zona_sekolah" placeholder="Zona Sekolah" required>
-            <field-messages name="zona_sekolah" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Zona Sekolah is a required field</small>
-            </field-messages>
-          </div>
-        </validate>
-
-        <validate tag="div">
-          <div class="form-group">
-            <label for="model-lokasi_siswa">Lokasi Siswa</label>
-            <input type="text" class="form-control" id="model-lokasi_siswa" v-model="model.lokasi_siswa" name="lokasi_siswa" placeholder="Lokasi Siswa" required>
-            <field-messages name="lokasi_siswa" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Lokasi Siswa is a required field</small>
-            </field-messages>
-          </div>
-        </validate>
-
-        <validate tag="div">
-          <div class="form-group">
-            <label for="model-lokasi_sekolah">Lokasi Sekolah</label>
-            <input type="text" class="form-control" id="model-lokasi_sekolah" v-model="model.lokasi_sekolah" name="lokasi_sekolah" placeholder="Lokasi Sekolah" required>
-            <field-messages name="lokasi_sekolah" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Lokasi Sekolah is a required field</small>
-            </field-messages>
-          </div>
-        </validate> -->
 
         <validate tag="div">
           <div class="form-group">
@@ -201,14 +143,13 @@ export default {
       } else {
         axios.post('api/zona', {
             user_id : this.model.user.id,
-            master_zona_id : this.model.master_zona.id,
             siswa_id : this.model.siswa.id,
             nomor_un: this.model.siswa.nomor_un,
             sekolah_id : this.model.sekolah.id,
-            zona_siswa : this.model.zona_siswa,
-            zona_sekolah : this.model.zona_sekolah,
-            lokasi_siswa : this.model.lokasi_siswa,
-            lokasi_sekolah : this.model.lokasi_sekolah,
+            zona_siswa : this.model.siswa.zona_siswa,
+            zona_sekolah : this.model.sekolah.zona_sekolah,
+            lokasi_siswa : this.model.siswa.village_id,
+            lokasi_sekolah : this.model.sekolah.village_id,
             nilai_zona : this.model.nilai_zona
           })
           .then(response => {
@@ -232,10 +173,6 @@ export default {
       axios.get('api/zona/create')
         .then(response => {
           if (response.data.status == true) {
-            this.model.zona_siswa  = response.data.zona.zona_siswa;
-            this.model.zona_sekolah  = response.data.zona.zona_sekolah;
-            this.model.lokasi_siswa  = response.data.zona.lokasi_siswa;
-            this.model.lokasi_sekolah  = response.data.zona.lokasi_sekolah;
             this.model.nilai_zona  = response.data.zona.nilai_zona;
           } else {
             alert('Failed');

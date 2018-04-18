@@ -45,7 +45,6 @@ class BantenprovZonaSeeder extends Seeder
             
         	$this->model->create([
             	'user_id' => $data['user_id'],
-				'master_zona_id' => $data['master_zona_id'],
 				'nomor_un' => $data['nomor_un'],
 				'sekolah_id' => $data['sekolah_id'],
                 'zona_siswa' => $data['zona_siswa'],
@@ -62,8 +61,6 @@ class BantenprovZonaSeeder extends Seeder
         if($this->textInfo){                
             echo "============[DATA]============\n";
             $this->orangeText('user_id : ').$this->greenText($data['user_id']);
-			echo"\n";
-			$this->orangeText('master_zona_id : ').$this->greenText($data['master_zona_id']);
 			echo"\n";
 			$this->orangeText('nomor_un : ').$this->greenText($data['nomor_un']);
 			echo"\n";
@@ -107,14 +104,13 @@ class BantenprovZonaSeeder extends Seeder
         $row = 1;
         while(($data = fgetcsv($file, 1000, ",")) !== FALSE){
             $all_data[] = ['user_id' => $data[0],
-                           'master_zona_id' => $data[1],
-                           'nomor_un' => $data[2],
-                           'sekolah_id' => $data[3],
-                           'zona_siswa' => $data[4],
-                           'zona_sekolah' => $data[5],
-                           'lokasi_siswa' => $data[6],
-                           'lokasi_sekolah' => $data[7],
-                           'nilai_zona' => $data[8],
+                           'nomor_un' => $data[1],
+                           'sekolah_id' => $data[2],
+                           'zona_siswa' => $data[3],
+                           'zona_sekolah' => $data[4],
+                           'lokasi_siswa' => $data[5],
+                           'lokasi_sekolah' => $data[6],
+                           'nilai_zona' => $data[7],
                           ];
         }
         fclose($file);

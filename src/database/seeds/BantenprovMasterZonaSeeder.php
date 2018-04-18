@@ -18,7 +18,7 @@ class BantenprovMasterZonaSeeder extends Seeder
     protected $NC      ="\033[0m";
     /* File name */
     /* location : /databse/seeds/file_name.csv */
-    protected $fileName = "BantenprovMasterZonaSeeder.csv";
+    protected $fileName = "BantenprovMasteerZonaSeeder.csv";
     /* text info : default (true) */
     protected $textInfo = true;
     /* model class */
