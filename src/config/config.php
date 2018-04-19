@@ -11,7 +11,7 @@ return [
     | Bantenprov/Zona
     |
     */
-
-    'key' => 'value'
-
+    'satu_desa' => 1,
+    'satu_kecamatan' => 1,
+    'satu_kabkota' => 1,
 ];
