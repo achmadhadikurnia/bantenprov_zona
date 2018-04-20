@@ -20,7 +20,7 @@ use Validator;
  * @author  bantenprov <developer.bantenprov@gmail.com>
  */
 class MasterZonaController extends Controller
-{  
+{
     /**
      * Create a new controller instance.
      *
@@ -67,13 +67,34 @@ class MasterZonaController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function get()
+    {
+        $master_zonas = $this->master_zona->with(['user'])->get();
+
+        foreach($master_zonas as $master_zona){
+            array_set($master_zona, 'label', $master_zona->nama);
+        }
+
+        $response['master_zonas']   = $master_zonas;
+        $response['error']      = false;
+        $response['message']    = 'Success';
+        $response['status']     = true;
+
+        return response()->json($response);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-    
+
         $response = [];
         $users_special = $this->user->all();
         $users_standar = $this->user->find(\Auth::User()->id);
@@ -209,8 +230,8 @@ class MasterZonaController extends Controller
             foreach($validator->messages()->getMessages() as $key => $error){
                         foreach($error AS $error_get) {
                             array_push($message, $error_get);
-                        }                
-                    } 
+                        }
+                    }
 
              $check_user = $this->master_zona->where('id','!=', $id)->where('user_id', $request->user_id);
 
