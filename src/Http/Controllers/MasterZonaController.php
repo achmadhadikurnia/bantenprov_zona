@@ -13,6 +13,7 @@ use App\User;
 
 /* Etc */
 use Validator;
+use Auth;
 
 /**
  * The MasterZonaController class.
@@ -98,38 +99,48 @@ class MasterZonaController extends Controller
      */
     public function create()
     {
+        $user_id        = isset(Auth::User()->id) ? Auth::User()->id : null;
+        $master_zona    = $this->master_zona->getAttributes();
+        $users          = $this->user->getAttributes();
+        $users_special  = $this->user->all();
+        $users_standar  = $this->user->findOrFail($user_id);
+        $current_user   = Auth::User();
 
-        $response = [];
-        $users_special = $this->user->all();
-        $users_standar = $this->user->find(\Auth::User()->id);
-        $current_user = \Auth::User();
-
-        $role_check = \Auth::User()->hasRole(['superadministrator','administrator']);
+        $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
 
         if($role_check){
-            $response['user_special'] = true;
+            $user_special = true;
+
             foreach($users_special as $user){
                 array_set($user, 'label', $user->name);
             }
-            $response['user'] = $users_special;
+
+            $users = $users_special;
         }else{
-            $response['user_special'] = false;
+            $user_special = false;
+
             array_set($users_standar, 'label', $users_standar->name);
-            $response['user'] = $users_standar;
+
+            $users = $users_standar;
         }
 
         array_set($current_user, 'label', $current_user->name);
 
-        $response['current_user'] = $current_user;
-        $response['status'] = true;
+        $response['master_zona']        = $master_zona;
+        $response['users']          = $users;
+        $response['user_special']   = $user_special;
+        $response['current_user']   = $current_user;
+        $response['error']          = false;
+        $response['message']        = 'Success';
+        $response['status']         = true;
 
         return response()->json($response);
     }
 
     /**
-     * Display the specified resource.
+     * Store a newly created resource in storage.
      *
-     * @param  \App\Zona  $zona
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -137,37 +148,29 @@ class MasterZonaController extends Controller
         $master_zona = $this->master_zona;
 
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|unique:master_zonas,user_id',
-            'tingkat' => 'required',
-            'kode' => 'required',
-            'label' => 'required'
+            'tingkat'   => 'required|numeric',
+            'kode'      => 'required|numeric',
+            'label'     => 'required|max:255',
+            'user_id'   => "required|exists:{$this->user->getTable()},id",
         ]);
 
-        if($validator->fails()){
-            $check = $master_zona->where('user_id',$request->user_id)->whereNull('deleted_at')->count();
-
-            if ($check > 0) {
-                $response['message'] = 'Failed ! Username already exists';
-            } else {
-                $master_zona->user_id = $request->input('user_id');
-                $master_zona->tingkat = $request->input('tingkat');
-                $master_zona->kode = $request->input('kode');
-                $master_zona->label = $request->input('label');
-                $master_zona->save();
-
-                $response['message'] = 'success';
-            }
+        if ($validator->fails()) {
+            $error      = true;
+            $message    = $validator->errors()->first();
         } else {
-                $master_zona->user_id = $request->input('user_id');
-                $master_zona->tingkat = $request->input('tingkat');
-                $master_zona->kode = $request->input('kode');
-                $master_zona->label = $request->input('label');
-                $master_zona->save();
+            $master_zona->tingkat   = $request->input('tingkat');
+            $master_zona->kode      = $request->input('kode');
+            $master_zona->label     = $request->input('label');
+            $master_zona->user_id   = $request->input('user_id');
+            $master_zona->save();
 
-            $response['message'] = 'success';
+            $error      = false;
+            $message    = 'Success';
         }
 
-        $response['status'] = true;
+        $response['error']      = $error;
+        $response['message']    = $message;
+        $response['status']     = true;
 
         return response()->json($response);
     }
