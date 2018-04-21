@@ -99,7 +99,6 @@ export default {
           sortField: 'tingkat',
           titleClass: 'center aligned'
         },
-
         {
           name: 'kode',
           title: 'Kode',
@@ -118,7 +117,6 @@ export default {
           titleClass: 'center aligned',
           dataClass: 'center aligned'
         },
-
       ],
       sortOrder: [{
         field: 'tingkat',
@@ -152,10 +150,10 @@ export default {
       window.location = '#/admin/master-zona/create';
     },
     viewRow(rowData) {
-      window.location = '#/admin/master-zona/' + rowData.id;
+      window.location = '#/admin/master-zona/'+rowData.id;
     },
     editRow(rowData) {
-      window.location = '#/admin/master-zona/' + rowData.id + '/edit';
+      window.location = '#/admin/master-zona/'+rowData.id+'/edit';
     },
     deleteRow(rowData) {
       let app = this;
