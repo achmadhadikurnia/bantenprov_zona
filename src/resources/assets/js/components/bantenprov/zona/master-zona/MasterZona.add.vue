@@ -109,7 +109,7 @@ export default {
     axios.get('api/master-zona/create')
       .then(response => {
         if (response.data.status == true && response.data.error == false) {
-          this.model.user       = response.data.current_user;
+          this.model.user = response.data.current_user;
 
           if(response.data.user_special == true){
             this.user = response.data.users;
