@@ -126,7 +126,7 @@ class MasterZonaController extends Controller
 
         array_set($current_user, 'label', $current_user->name);
 
-        $response['master_zona']        = $master_zona;
+        $response['master_zona']    = $master_zona;
         $response['users']          = $users;
         $response['user_special']   = $user_special;
         $response['current_user']   = $current_user;
@@ -183,7 +183,7 @@ class MasterZonaController extends Controller
      */
     public function show($id)
     {
-        $master_zona = $this->master_zona->with(['user'])->findOrFail($id);
+        $master_zona    = $this->master_zona->with(['user'])->findOrFail($id);
 
         $response['master_zona']    = $master_zona;
         $response['error']          = false;
@@ -201,13 +201,44 @@ class MasterZonaController extends Controller
      */
     public function edit($id)
     {
-        $master_zona = $this->master_zona->findOrFail($id);
+        $user_id        = isset(Auth::User()->id) ? Auth::User()->id : null;
+        $master_zona    = $this->master_zona->with(['user'])->findOrFail($id);
+        $users          = $this->user->getAttributes();
+        $users_special  = $this->user->all();
+        $users_standar  = $this->user->findOrFail($user_id);
+        $current_user   = Auth::User();
 
-        array_set($master_zona->user, 'label', $master_zona->user->name);
+        $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
 
-        $response['master_zona'] = $master_zona;
-        $response['user'] = $master_zona->user;
-        $response['status'] = true;
+        if ($master_zona->user !== null) {
+            array_set($master_zona->user, 'label', $master_zona->user->name);
+        }
+
+        if($role_check){
+            $user_special = true;
+
+            foreach($users_special as $user){
+                array_set($user, 'label', $user->name);
+            }
+
+            $users = $users_special;
+        }else{
+            $user_special = false;
+
+            array_set($users_standar, 'label', $users_standar->name);
+
+            $users = $users_standar;
+        }
+
+        array_set($current_user, 'label', $current_user->name);
+
+        $response['master_zona']    = $master_zona;
+        $response['users']          = $users;
+        $response['user_special']   = $user_special;
+        $response['current_user']   = $current_user;
+        $response['error']          = false;
+        $response['message']        = 'Success';
+        $response['status']         = true;
 
         return response()->json($response);
     }
@@ -221,53 +252,32 @@ class MasterZonaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $response = array();
-        $message  = array();
-
-        $master_zona = $this->master_zona->findOrFail($id);
+        $master_zona = $this->master_zona->with(['user'])->findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|unique:master_zonas,user_id,'.$id,
-            'tingkat' => 'required',
-            'kode' => 'required',
-            'label' => 'required'
+            'tingkat'   => 'required|numeric',
+            'kode'      => 'required|numeric',
+            'label'     => 'required|max:255',
+            'user_id'   => "required|exists:{$this->user->getTable()},id",
         ]);
 
         if ($validator->fails()) {
-
-            foreach($validator->messages()->getMessages() as $key => $error){
-                        foreach($error AS $error_get) {
-                            array_push($message, $error_get);
-                        }
-                    }
-
-             $check_user = $this->master_zona->where('id','!=', $id)->where('user_id', $request->user_id);
-
-             if($check_user->count() > 0){
-                  $response['message'] = implode("\n",$message);
+            $error      = true;
+            $message    = $validator->errors()->first();
         } else {
-                $master_zona->user_id = $request->input('user_id');
-                $master_zona->tingkat = $request->input('tingkat');
-                $master_zona->kode = $request->input('kode');
-                $master_zona->label = $request->input('label');
-                $master_zona->save();
+            $master_zona->tingkat   = $request->input('tingkat');
+            $master_zona->kode      = $request->input('kode');
+            $master_zona->label     = $request->input('label');
+            $master_zona->user_id   = $request->input('user_id');
+            $master_zona->save();
 
-
-            $response['message'] = 'success';
+            $error      = false;
+            $message    = 'Success';
         }
 
-        } else {
-                $master_zona->user_id = $request->input('user_id');
-                $master_zona->tingkat = $request->input('tingkat');
-                $master_zona->kode = $request->input('kode');
-                $master_zona->label = $request->input('label');
-                $master_zona->save();
-
-
-                $response['message'] = 'success';
-        }
-
-                $response['status'] = true;
+        $response['error']      = $error;
+        $response['message']    = $message;
+        $response['status']     = true;
 
         return response()->json($response);
     }
