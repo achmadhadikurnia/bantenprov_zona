@@ -3,9 +3,9 @@ use Illuminate\Database\Seeder;
 /**
  * Usage :
  * [1] $ composer dump-autoload -o
- * [2] $ php artisan db:seed --class=BantenprovZonaSeeder
+ * [2] $ php artisan db:seed --class=BantenprovZonaSeederZona
  */
-class BantenprovMasterZonaSeeder extends Seeder
+class BantenprovZonaSeederZona extends Seeder
 {
     /* text color */
     protected $RED     ="\033[0;31m";
@@ -18,14 +18,14 @@ class BantenprovMasterZonaSeeder extends Seeder
     protected $NC      ="\033[0m";
     /* File name */
     /* location : /databse/seeds/file_name.csv */
-    protected $fileName = "BantenprovMasterZonaSeeder.csv";
+    protected $fileName = "BantenprovZonaSeederZona.csv";
     /* text info : default (true) */
     protected $textInfo = true;
     /* model class */
     protected $model;
     /* __construct */
     public function __construct(){
-        $this->model = new Bantenprov\Zona\Models\Bantenprov\Zona\MasterZona;
+        $this->model = new Bantenprov\Zona\Models\Bantenprov\Zona\Zona;
     }
     /**
      * Run the database seeds.
@@ -42,27 +42,44 @@ class BantenprovMasterZonaSeeder extends Seeder
         /* silahkan di rubah sesuai kebutuhan */
         foreach($this->readCSV() as $data){
 
-            
+
         	$this->model->create([
             	'user_id' => $data['user_id'],
-				'tingkat' => $data['tingkat'],
-				'kode' => $data['kode'],
-				'label' => $data['label'],
+				'nomor_un' => $data['nomor_un'],
+				'sekolah_id' => $data['sekolah_id'],
+                'zona_siswa' => $data['zona_siswa'],
+                'zona_sekolah' => $data['zona_sekolah'],
+                'lokasi_siswa' => $data['lokasi_siswa'],
+                'lokasi_sekolah' => $data['lokasi_sekolah'],
+                'nilai_zona' => $data['nilai_zona'],
+
         	]);
-        
+
 
         }
 
-        if($this->textInfo){                
+        if($this->textInfo){
             echo "============[DATA]============\n";
             $this->orangeText('user_id : ').$this->greenText($data['user_id']);
 			echo"\n";
-			$this->orangeText('tingkat : ').$this->greenText($data['tingkat']);
+			$this->orangeText('nomor_un : ').$this->greenText($data['nomor_un']);
 			echo"\n";
-			$this->orangeText('kode : ').$this->greenText($data['kode']);
+			$this->orangeText('sekolah_id : ').$this->greenText($data['sekolah_id']);
 			echo"\n";
-			$this->orangeText('label : ').$this->greenText($data['label']);
-			echo"\n";      
+            $this->orangeText('zona_siswa : ').$this->greenText($data['zona_siswa']);
+            echo"\n";
+            $this->orangeText('zona_sekolah : ').$this->greenText($data['zona_sekolah']);
+            echo"\n";
+            $this->orangeText('lokasi_siswa : ').$this->greenText($data['lokasi_siswa']);
+            echo"\n";
+            $this->orangeText('lokasi_sekolah : ').$this->greenText($data['lokasi_sekolah']);
+            echo"\n";
+            $this->orangeText('nilai_zona : ').$this->greenText($data['nilai_zona']);
+            echo"\n";
+
+
+
+
             echo "============[DATA]============\n\n";
         }
 
@@ -87,9 +104,13 @@ class BantenprovMasterZonaSeeder extends Seeder
         $row = 1;
         while(($data = fgetcsv($file, 1000, ",")) !== FALSE){
             $all_data[] = ['user_id' => $data[0],
-                           'tingkat' => $data[1],
-                           'kode' => $data[2],
-                           'label' => $data[3],
+                           'nomor_un' => $data[1],
+                           'sekolah_id' => $data[2],
+                           'zona_siswa' => $data[3],
+                           'zona_sekolah' => $data[4],
+                           'lokasi_siswa' => $data[5],
+                           'lokasi_sekolah' => $data[6],
+                           'nilai_zona' => $data[7],
                           ];
         }
         fclose($file);
