@@ -59,7 +59,7 @@ export default {
   mounted() {
     let app = this;
 
-    axios.get('api/master-zona/' + this.$route.params.id)
+    axios.get('api/master-zona/'+this.$route.params.id)
       .then(response => {
         if (response.data.status == true && response.data.error == false) {
           this.model.tingkat    = response.data.master_zona.tingkat;
