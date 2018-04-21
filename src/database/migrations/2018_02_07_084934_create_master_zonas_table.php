@@ -15,7 +15,7 @@ class CreateMasterZonasTable extends Migration
 		Schema::create('master_zonas', function(Blueprint $table) {
 			$table->increments('id');
 			$table->string('tingkat');
-			$table->integer('kode');
+			$table->string('kode');
 			$table->string('label');
 			$table->integer('user_id')->nullable();
 			$table->timestamps();
