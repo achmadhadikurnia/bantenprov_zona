@@ -91,14 +91,14 @@ export default {
       state: {},
       title: 'Add Master Zona',
       model: {
-        tingkat     : "",
-        kode        : "",
-        label       : "",
-        user_id     : "",
-        created_at  : "",
-        updated_at  : "",
+        tingkat     : '',
+        kode        : '',
+        label       : '',
+        user_id     : '',
+        created_at  : '',
+        updated_at  : '',
 
-        user        : "",
+        user        : '',
       },
       user  : [],
     }
@@ -189,14 +189,14 @@ export default {
     },
     reset() {
       this.model = {
-        tingkat     : "",
-        kode        : "",
-        label       : "",
-        user_id     : "",
-        created_at  : "",
-        updated_at  : "",
+        tingkat     : '',
+        kode        : '',
+        label       : '',
+        user_id     : '',
+        created_at  : '',
+        updated_at  : '',
 
-        user        : "",
+        user        : '',
       };
     },
     back() {
