@@ -12,8 +12,8 @@ return [
     |
     */
 
-    'satu_desa' => 1,
-    'satu_kecamatan' => 1,
-    'satu_kabkota' => 1,
+    'satu_kabkota'      => 0,
+    'satu_kecamatan'    => 50,
+    'satu_desa'         => 100,
 
 ];
