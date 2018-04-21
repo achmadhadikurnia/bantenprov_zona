@@ -5,7 +5,7 @@
       "region": "Provinsi",
       "name": "Banten",
       "yyyy": "2011",
-      "title": "Rasio Grup Kesenian Provinsi Banten",
+      "title": "Sekolah 1 Provinsi Banten",
       "data": [
         "2010",
         "2011",
@@ -32,7 +32,7 @@
     "xAxis": {
       "type": "category",
       "region": "Negara",
-      "title": "Rasio Grup Kesenian Negara Indonesia",
+      "title": "Sekolah 2 Provinsi Banten",
       "yyyy": "2011",
       "data": [
         "2010",
