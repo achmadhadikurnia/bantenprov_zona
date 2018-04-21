@@ -5,6 +5,7 @@ namespace Bantenprov\Zona\Http\Controllers;
 /* Require */
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Bantenprov\Zona\Facades\ZonaFacade;
 
 /* Models */
 use Bantenprov\Zona\Models\Bantenprov\Zona\MasterZona;
@@ -14,25 +15,25 @@ use App\User;
 use Validator;
 
 /**
- * The ZonaController class.
+ * The MasterZonaController class.
  *
  * @package Bantenprov\Zona
  * @author  bantenprov <developer.bantenprov@gmail.com>
  */
 class MasterZonaController extends Controller
 {
+    protected $master_zona;
+    protected $user;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    protected $master_zona;
-    protected $user;
-
-    public function __construct(MasterZona $master_zona, User $user)
+    public function __construct()
     {
-        $this->master_zona = $master_zona;
-        $this->user        = $user;
+        $this->master_zona  = new MasterZona;
+        $this->user         = new User;
     }
 
     /**
@@ -53,13 +54,16 @@ class MasterZonaController extends Controller
         if ($request->exists('filter')) {
             $query->where(function($q) use($request) {
                 $value = "%{$request->filter}%";
-                $q->where('id', 'like', $value)
+
+                $q->where('tingkat', 'like', $value)
+                    ->orWhere('kode', 'like', $value)
                     ->orWhere('label', 'like', $value);
             });
         }
 
-        $perPage = request()->has('per_page') ? (int) request()->per_page : null;
-        $response = $query->with('user')->paginate($perPage);
+        $perPage    = request()->has('per_page') ? (int) request()->per_page : null;
+
+        $response   = $query->with(['user'])->paginate($perPage);
 
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
@@ -75,14 +79,14 @@ class MasterZonaController extends Controller
     {
         $master_zonas = $this->master_zona->with(['user'])->get();
 
-        foreach($master_zonas as $master_zona){
-            array_set($master_zona, 'label', $master_zona->nama);
-        }
+        // foreach($master_zonas as $master_zona){
+        //     array_set($master_zona, 'label', $master_zona->label);
+        // }
 
         $response['master_zonas']   = $master_zonas;
-        $response['error']      = false;
-        $response['message']    = 'Success';
-        $response['status']     = true;
+        $response['error']          = false;
+        $response['message']        = 'Success';
+        $response['status']         = true;
 
         return response()->json($response);
     }
@@ -169,18 +173,19 @@ class MasterZonaController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\MasterZona  $master_zona
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $master_zona = $this->master_zona->findOrFail($id);
+        $master_zona = $this->master_zona->with(['user'])->findOrFail($id);
 
-        $response['master_zona'] = $master_zona;
-        $response['user'] = $master_zona->user;
-        $response['status'] = true;
+        $response['master_zona']    = $master_zona;
+        $response['error']          = false;
+        $response['message']        = 'Success';
+        $response['status']         = true;
 
         return response()->json($response);
     }
@@ -267,7 +272,7 @@ class MasterZonaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Zona  $zona
+     * @param  \App\MasterZona  $master-zona
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -275,9 +280,13 @@ class MasterZonaController extends Controller
         $master_zona = $this->master_zona->findOrFail($id);
 
         if ($master_zona->delete()) {
-            $response['status'] = true;
+            $response['message']    = 'Success';
+            $response['success']    = true;
+            $response['status']     = true;
         } else {
-            $response['status'] = false;
+            $response['message']    = 'Failed';
+            $response['success']    = false;
+            $response['status']     = false;
         }
 
         return json_encode($response);
