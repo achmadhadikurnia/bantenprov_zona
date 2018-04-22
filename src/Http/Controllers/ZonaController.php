@@ -181,9 +181,9 @@ class ZonaController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Store a newly created resource in storage.
      *
-     * @param  \App\Zona  $zona
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -256,21 +256,19 @@ class ZonaController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Zona  $zona
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $zona = $this->zona->findOrFail($id);
+        $zona = $this->zona->with(['siswa', 'sekolah', 'user'])->findOrFail($id);
 
-        $response['zona'] = $zona;
-        $response['master_zona'] = $zona->master_zona;
-        $response['sekolah'] = $zona->sekolah;
-        $response['siswa'] = $zona->siswa;
-        $response['user'] = $zona->user;
-        $response['status'] = true;
+        $response['zona']       = $zona;
+        $response['error']      = false;
+        $response['message']    = 'Success';
+        $response['status']     = true;
 
         return response()->json($response);
     }
