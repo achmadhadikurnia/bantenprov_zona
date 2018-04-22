@@ -127,44 +127,6 @@ $ php artisan db:seed --class=BantenprovZonaSeeder
 #### Tambahkan components `resources/assets/js/components.js` :
 
 ```javascript
-//... Zona ...//
-
-import ZonaAdminShow from '~/components/bantenprov/zona/zona/ZonaAdmin.show.vue';
-Vue.component('zona-admin', ZonaAdminShow);
-
-//... Echarts Zona ...//
-
-import Zona from '~/components/bantenprov/zona/zona/Zona.chart.vue';
-Vue.component('zona-echarts', Zona);
-
-import ZonaKota from '~/components/bantenprov/zona/zona/ZonaKota.chart.vue';
-Vue.component('zona-echarts-kota', ZonaKota);
-
-import ZonaTahun from '~/components/bantenprov/zona/zona/ZonaTahun.chart.vue';
-Vue.component('zona-echarts-tahun', ZonaTahun);
-
-//... Mini Bar Charts Zona ...//
-
-import ZonaBar01 from '~/components/views/bantenprov/zona/zona/ZonaBar01.vue';
-Vue.component('zona-bar-01', ZonaBar01);
-
-import ZonaBar02 from '~/components/views/bantenprov/zona/zona/ZonaBar02.vue';
-Vue.component('zona-bar-02', ZonaBar02);
-
-import ZonaBar03 from '~/components/views/bantenprov/zona/zona/ZonaBar03.vue';
-Vue.component('zona-bar-03', ZonaBar03);
-
-//... Mini Pie Charts Zona ...//
-
-import ZonaPie01 from '~/components/views/bantenprov/zona/zona/ZonaPie01.vue';
-Vue.component('zona-pie-01', ZonaPie01);
-
-import ZonaPie02 from '~/components/views/bantenprov/zona/zona/ZonaPie02.vue';
-Vue.component('zona-pie-02', ZonaPie02);
-
-import ZonaPie03 from '~/components/views/bantenprov/zona/zona/ZonaPie03.vue';
-Vue.component('zona-pie-03', ZonaPie03);
-
 //... Master Zona ...//
 
 import MasterZonaAdminShow from '~/components/bantenprov/zona/master-zona/MasterZonaAdmin.show.vue';
@@ -202,6 +164,44 @@ Vue.component('master-zona-pie-02', MasterZonaPie02);
 
 import MasterZonaPie03 from '~/components/views/bantenprov/zona/master-zona/MasterZonaPie03.vue';
 Vue.component('master-zona-pie-03', MasterZonaPie03);
+
+//... Zona ...//
+
+import ZonaAdminShow from '~/components/bantenprov/zona/zona/ZonaAdmin.show.vue';
+Vue.component('zona-admin', ZonaAdminShow);
+
+//... Echarts Zona ...//
+
+import Zona from '~/components/bantenprov/zona/zona/Zona.chart.vue';
+Vue.component('zona-echarts', Zona);
+
+import ZonaKota from '~/components/bantenprov/zona/zona/ZonaKota.chart.vue';
+Vue.component('zona-echarts-kota', ZonaKota);
+
+import ZonaTahun from '~/components/bantenprov/zona/zona/ZonaTahun.chart.vue';
+Vue.component('zona-echarts-tahun', ZonaTahun);
+
+//... Mini Bar Charts Zona ...//
+
+import ZonaBar01 from '~/components/views/bantenprov/zona/zona/ZonaBar01.vue';
+Vue.component('zona-bar-01', ZonaBar01);
+
+import ZonaBar02 from '~/components/views/bantenprov/zona/zona/ZonaBar02.vue';
+Vue.component('zona-bar-02', ZonaBar02);
+
+import ZonaBar03 from '~/components/views/bantenprov/zona/zona/ZonaBar03.vue';
+Vue.component('zona-bar-03', ZonaBar03);
+
+//... Mini Pie Charts Zona ...//
+
+import ZonaPie01 from '~/components/views/bantenprov/zona/zona/ZonaPie01.vue';
+Vue.component('zona-pie-01', ZonaPie01);
+
+import ZonaPie02 from '~/components/views/bantenprov/zona/zona/ZonaPie02.vue';
+Vue.component('zona-pie-02', ZonaPie02);
+
+import ZonaPie03 from '~/components/views/bantenprov/zona/zona/ZonaPie03.vue';
+Vue.component('zona-pie-03', ZonaPie03);
 ```
 
 #### Tambahkan route di dalam file : `resources/assets/js/routes.js` :
