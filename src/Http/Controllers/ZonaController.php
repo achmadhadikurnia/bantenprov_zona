@@ -104,7 +104,7 @@ class ZonaController extends Controller
 
         $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
 
-        if($role_check){
+        if ($role_check) {
             $user_special = true;
 
             foreach($users_special as $user){
@@ -112,7 +112,7 @@ class ZonaController extends Controller
             }
 
             $users = $users_special;
-        }else{
+        } else {
             $user_special = false;
 
             array_set($users_standar, 'label', $users_standar->name);
@@ -234,7 +234,7 @@ class ZonaController extends Controller
             array_set($zona->user, 'label', $zona->user->name);
         }
 
-        if($role_check){
+        if ($role_check) {
             $user_special = true;
 
             foreach($users_special as $user){
@@ -242,7 +242,7 @@ class ZonaController extends Controller
             }
 
             $users = $users_special;
-        }else{
+        } else {
             $user_special = false;
 
             array_set($users_standar, 'label', $users_standar->name);
