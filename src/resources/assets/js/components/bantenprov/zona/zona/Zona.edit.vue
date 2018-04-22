@@ -90,8 +90,9 @@ export default {
     axios.get('api/zona/'+this.$route.params.id+'/edit')
       .then(response => {
         if (response.data.status == true && response.data.error == false) {
-          this.model.siswa = response.data.zona.siswa;
-          this.model.user = response.data.current_user;
+          this.model.user_id  = response.data.zona.user_id;
+
+          this.model.siswa    = response.data.zona.siswa;
 
           if (response.data.zona.user === null) {
             this.model.user = response.data.current_user;

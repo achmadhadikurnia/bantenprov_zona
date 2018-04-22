@@ -113,6 +113,7 @@ export default {
           this.model.tingkat  = response.data.master_zona.tingkat;
           this.model.kode     = response.data.master_zona.kode;
           this.model.label    = response.data.master_zona.label;
+          this.model.user_id  = response.data.master_zona.user_id;
 
           if (response.data.master_zona.user === null) {
             this.model.user = response.data.current_user;
