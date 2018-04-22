@@ -19,7 +19,7 @@
           <div class="col-md">
             <validate tag="div">
               <label for="nomor_un">Siswa</label>
-              <v-select name="nomor_un" v-model="model.siswa" :options="siswa" placeholder="Siswa" required autofocus></v-select>
+              <v-select name="nomor_un" v-model="model.siswa" :options="siswa" placeholder="Siswa" required autofocus disabled></v-select>
 
               <field-messages name="nomor_un" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>

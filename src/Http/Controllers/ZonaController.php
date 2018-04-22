@@ -277,7 +277,7 @@ class ZonaController extends Controller
         $zona = $this->zona->with(['siswa', 'sekolah', 'user'])->findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'nomor_un'          => "required|exists:{$this->siswa->getTable()},nomor_un|unique:{$this->zona->getTable()},nomor_un,{$id},id,deleted_at,NULL",
+            // 'nomor_un'          => "required|exists:{$this->siswa->getTable()},nomor_un|unique:{$this->zona->getTable()},nomor_un,{$id},id,deleted_at,NULL",
             // 'sekolah_id'        => "required|exists:{$this->sekolah->getTable()},id",
             // 'zona_siswa'     => "required|exists:{$this->city->getTable()},id",
             // 'zona_sekolah'   => "required|exists:{$this->village->getTable()},id",
@@ -291,7 +291,7 @@ class ZonaController extends Controller
             $error      = true;
             $message    = $validator->errors()->first();
         } else {
-            $nomor_un       = $request->input('nomor_un');
+            $nomor_un       = $zona->nomor_un; // $request->input('nomor_un');
             $siswa          = $this->siswa->where('nomor_un', $nomor_un)->with(['sekolah'])->first();
             $zona_siswa     = substr($siswa->village_id, 0, 6);
             $zona_sekolah   = substr($siswa->sekolah->village_id, 0, 6);
