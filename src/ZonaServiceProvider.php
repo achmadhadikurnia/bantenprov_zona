@@ -35,6 +35,7 @@ class ZonaServiceProvider extends ServiceProvider
         $this->migrationHandle();
         $this->publicHandle();
         $this->seedHandle();
+        $this->publishHandle();
     }
 
     /**
@@ -73,16 +74,18 @@ class ZonaServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configHandle()
+    protected function configHandle($publish = '')
     {
-        $packageConfigPath = __DIR__.'/config/config.php';
-        $appConfigPath     = config_path('zona.php');
+        $packageConfigPath = __DIR__.'/config';
+        $appConfigPath     = config_path('bantenprov/zona');
 
-        $this->mergeConfigFrom($packageConfigPath, 'zona');
+        $this->mergeConfigFrom($packageConfigPath.'/zona.php', 'zona');
+        $this->mergeConfigFrom($packageConfigPath.'/master-zona.php', 'master-zona');
 
         $this->publishes([
-            $packageConfigPath => $appConfigPath,
-        ], 'zona-config');
+            $packageConfigPath.'/zona.php' => $appConfigPath.'/zona.php',
+            $packageConfigPath.'/master-zona.php' => $appConfigPath.'/master-zona.php',
+        ], $publish ? $publish : 'zona-config');
     }
 
     /**
@@ -100,7 +103,7 @@ class ZonaServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function langHandle()
+    protected function langHandle($publish = '')
     {
         $packageTranslationsPath = __DIR__.'/resources/lang';
 
@@ -108,7 +111,7 @@ class ZonaServiceProvider extends ServiceProvider
 
         $this->publishes([
             $packageTranslationsPath => resource_path('lang/vendor/zona'),
-        ], 'zona-lang');
+        ], $publish ? $publish : 'zona-lang');
     }
 
     /**
@@ -116,7 +119,7 @@ class ZonaServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function viewHandle()
+    protected function viewHandle($publish = '')
     {
         $packageViewsPath = __DIR__.'/resources/views';
 
@@ -124,7 +127,7 @@ class ZonaServiceProvider extends ServiceProvider
 
         $this->publishes([
             $packageViewsPath => resource_path('views/vendor/zona'),
-        ], 'zona-views');
+        ], $publish ? $publish : 'zona-views');
     }
 
     /**
@@ -132,13 +135,13 @@ class ZonaServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function assetHandle()
+    protected function assetHandle($publish = '')
     {
         $packageAssetsPath = __DIR__.'/resources/assets';
 
         $this->publishes([
             $packageAssetsPath => resource_path('assets'),
-        ], 'zona-assets');
+        ], $publish ? $publish : 'zona-assets');
     }
 
     /**
@@ -146,7 +149,7 @@ class ZonaServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function migrationHandle()
+    protected function migrationHandle($publish = '')
     {
         $packageMigrationsPath = __DIR__.'/database/migrations';
 
@@ -154,24 +157,53 @@ class ZonaServiceProvider extends ServiceProvider
 
         $this->publishes([
             $packageMigrationsPath => database_path('migrations')
-        ], 'zona-migrations');
+        ], $publish ? $publish : 'zona-migrations');
     }
 
-    public function publicHandle()
+    /**
+     * Publishing package's publics (JavaScript, CSS, images...)
+     *
+     * @return void
+     */
+    public function publicHandle($publish = '')
     {
         $packagePublicPath = __DIR__.'/public';
 
         $this->publishes([
             $packagePublicPath => base_path('public')
-        ], 'zona-public');
+        ], $publish ? $publish : 'zona-public');
     }
 
-    public function seedHandle()
+    /**
+     * Publishing package's seeds
+     *
+     * @return void
+     */
+    public function seedHandle($publish = '')
     {
         $packageSeedPath = __DIR__.'/database/seeds';
 
         $this->publishes([
             $packageSeedPath => base_path('database/seeds')
-        ], 'zona-seeds');
+        ], $publish ? $publish : 'zona-seeds');
+    }
+
+    /**
+     * Publishing package's all files
+     *
+     * @return void
+     */
+    public function publishHandle()
+    {
+        $publish = 'zona-publish';
+
+        $this->routeHandle($publish);
+        $this->configHandle($publish);
+        $this->langHandle($publish);
+        $this->viewHandle($publish);
+        $this->assetHandle($publish);
+        // $this->migrationHandle($publish);
+        $this->publicHandle($publish);
+        $this->seedHandle($publish);
     }
 }

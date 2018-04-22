@@ -16,25 +16,19 @@ class Zona extends Model
         'deleted_at'
     ];
     protected $fillable = [
-        'user_id',
-        'master_zona_id',
         'nomor_un',
         'sekolah_id',
         'zona_siswa',
         'zona_sekolah',
         'lokasi_siswa',
         'lokasi_sekolah',
-        'nilai_zona'
+        'nilai_zona',
+        'user_id',
     ];
 
     public function siswa()
     {
         return $this->belongsTo('Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa','nomor_un','nomor_un');
-    }
-
-    public function master_zona()
-    {
-        return $this->belongsTo('Bantenprov\Zona\Models\Bantenprov\Zona\MasterZona','master_zona_id');
     }
 
     public function sekolah()
@@ -45,5 +39,20 @@ class Zona extends Model
     public function user()
     {
         return $this->belongsTo('App\User','user_id');
+    }
+
+    public function nilai($lokasi_siswa, $lokasi_sekolah)
+    {
+        $nilai_zona = 0;
+
+        if ($lokasi_siswa == $lokasi_sekolah) {
+            $nilai_zona = $nilai_zona + config('bantenprov.zona.zona.satu_desa');
+        }
+
+        if (substr($lokasi_siswa, 0, 6) == substr($lokasi_sekolah, 0, 6)) {
+            $nilai_zona = $nilai_zona + config('bantenprov.zona.zona.satu_kecamatan');
+        }
+
+        return $nilai_zona;
     }
 }
