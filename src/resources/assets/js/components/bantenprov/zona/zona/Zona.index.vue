@@ -100,6 +100,12 @@ export default {
           titleClass: 'center aligned'
         },
         {
+          name: 'siswa.nama_siswa',
+          title: 'Nama Siswa',
+          sortField: 'siswa.nama_siswa',
+          titleClass: 'center aligned'
+        },
+        {
           name: 'sekolah.nama',
           title: 'Sekolah',
           sortField: 'sekolah_id',
