@@ -108,7 +108,7 @@ class MasterZonaController extends Controller
 
         $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
 
-        if($role_check){
+        if ($role_check) {
             $user_special = true;
 
             foreach($users_special as $user){
@@ -116,7 +116,7 @@ class MasterZonaController extends Controller
             }
 
             $users = $users_special;
-        }else{
+        } else {
             $user_special = false;
 
             array_set($users_standar, 'label', $users_standar->name);
@@ -215,7 +215,7 @@ class MasterZonaController extends Controller
             array_set($master_zona->user, 'label', $master_zona->user->name);
         }
 
-        if($role_check){
+        if ($role_check) {
             $user_special = true;
 
             foreach($users_special as $user){
@@ -223,7 +223,7 @@ class MasterZonaController extends Controller
             }
 
             $users = $users_special;
-        }else{
+        } else {
             $user_special = false;
 
             array_set($users_standar, 'label', $users_standar->name);

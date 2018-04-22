@@ -95,7 +95,7 @@ class ZonaController extends Controller
         $current_user   = Auth::User();
 
         foreach($siswas as $siswa){
-            array_set($siswa, 'label', $siswa->nama_siswa);
+            array_set($siswa, 'label', $siswa->nomor_un.' - '.$siswa->nama_siswa);
         }
 
         foreach($sekolahs as $sekolah){
@@ -104,7 +104,7 @@ class ZonaController extends Controller
 
         $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
 
-        if($role_check){
+        if ($role_check) {
             $user_special = true;
 
             foreach($users_special as $user){
@@ -112,7 +112,7 @@ class ZonaController extends Controller
             }
 
             $users = $users_special;
-        }else{
+        } else {
             $user_special = false;
 
             array_set($users_standar, 'label', $users_standar->name);
@@ -225,7 +225,7 @@ class ZonaController extends Controller
         $current_user   = Auth::User();
 
         if ($zona->siswa !== null) {
-            array_set($zona->siswa, 'label', $zona->siswa->nama_siswa);
+            array_set($zona->siswa, 'label', $zona->siswa->nomor_un.' - '.$zona->siswa->nama_siswa);
         }
 
         $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
@@ -234,7 +234,7 @@ class ZonaController extends Controller
             array_set($zona->user, 'label', $zona->user->name);
         }
 
-        if($role_check){
+        if ($role_check) {
             $user_special = true;
 
             foreach($users_special as $user){
@@ -242,7 +242,7 @@ class ZonaController extends Controller
             }
 
             $users = $users_special;
-        }else{
+        } else {
             $user_special = false;
 
             array_set($users_standar, 'label', $users_standar->name);
@@ -277,7 +277,7 @@ class ZonaController extends Controller
         $zona = $this->zona->with(['siswa', 'sekolah', 'user'])->findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'nomor_un'          => "required|exists:{$this->siswa->getTable()},nomor_un|unique:{$this->zona->getTable()},nomor_un,{$id},id,deleted_at,NULL",
+            // 'nomor_un'          => "required|exists:{$this->siswa->getTable()},nomor_un|unique:{$this->zona->getTable()},nomor_un,{$id},id,deleted_at,NULL",
             // 'sekolah_id'        => "required|exists:{$this->sekolah->getTable()},id",
             // 'zona_siswa'     => "required|exists:{$this->city->getTable()},id",
             // 'zona_sekolah'   => "required|exists:{$this->village->getTable()},id",
@@ -291,7 +291,7 @@ class ZonaController extends Controller
             $error      = true;
             $message    = $validator->errors()->first();
         } else {
-            $nomor_un       = $request->input('nomor_un');
+            $nomor_un       = $zona->nomor_un; // $request->input('nomor_un');
             $siswa          = $this->siswa->where('nomor_un', $nomor_un)->with(['sekolah'])->first();
             $zona_siswa     = substr($siswa->village_id, 0, 6);
             $zona_sekolah   = substr($siswa->sekolah->village_id, 0, 6);

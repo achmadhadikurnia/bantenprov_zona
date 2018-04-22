@@ -3,13 +3,14 @@
     <div class="card-header">
       <i class="fa fa-table" aria-hidden="true"></i> {{ title }}
 
-      <ul class="nav nav-pills card-header-pills pull-right">
-        <li class="nav-item">
-          <button class="btn btn-primary btn-sm" role="button" @click="back">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i>
-          </button>
-        </li>
-      </ul>
+      <div class="btn-group pull-right" role="group" style="display:flex;">
+        <button class="btn btn-info btn-sm" role="button" @click="view">
+          <i class="fa fa-eye" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-primary btn-sm" role="button" @click="back">
+          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
+      </div>
     </div>
 
     <div class="card-body">
@@ -18,7 +19,7 @@
           <div class="col-md">
             <validate tag="div">
               <label for="tingkat">Tingkat</label>
-              <input type="text" class="form-control" name="tingkat" v-model="model.tingkat" placeholder="Tingkat" required>
+              <input type="text" class="form-control" name="tingkat" v-model="model.tingkat" placeholder="Tingkat" required autofocus>
 
               <field-messages name="tingkat" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
@@ -72,7 +73,7 @@
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Update</button>
             <button type="reset" class="btn btn-secondary" @click="reset">Reset</button>
           </div>
         </div>
@@ -112,6 +113,7 @@ export default {
           this.model.tingkat  = response.data.master_zona.tingkat;
           this.model.kode     = response.data.master_zona.kode;
           this.model.label    = response.data.master_zona.label;
+          this.model.user_id  = response.data.master_zona.user_id;
 
           if (response.data.master_zona.user === null) {
             this.model.user = response.data.current_user;
@@ -206,6 +208,9 @@ export default {
 
         user        : '',
       };
+    },
+    view() {
+      window.location = '#/admin/master-zona/'+this.$route.params.id;
     },
     back() {
       window.location = '#/admin/master-zona';
