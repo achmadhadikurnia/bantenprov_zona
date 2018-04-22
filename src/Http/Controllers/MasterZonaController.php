@@ -257,7 +257,7 @@ class MasterZonaController extends Controller
 
         $validator = Validator::make($request->all(), [
             'tingkat'   => 'required|numeric',
-            'kode'      => 'required|numeric',
+            'kode'      => "required|numeric|unique:{$this->master_zona->getTable()},kode,{$id},id,deleted_at,NULL",
             'label'     => 'required|max:255',
             'user_id'   => "required|exists:{$this->user->getTable()},id",
         ]);
