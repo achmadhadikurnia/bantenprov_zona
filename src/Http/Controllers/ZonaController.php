@@ -215,17 +215,52 @@ class ZonaController extends Controller
      */
     public function edit($id)
     {
-        $zona = $this->zona->findOrFail($id);
+        $user_id        = isset(Auth::User()->id) ? Auth::User()->id : null;
+        $zona           = $this->zona->with(['siswa', 'sekolah', 'user'])->findOrFail($id);
+        $siswas         = $this->siswa->getAttributes();
+        $sekolahs       = $this->sekolah->getAttributes();
+        $users          = $this->user->getAttributes();
+        $users_special  = $this->user->all();
+        $users_standar  = $this->user->findOrFail($user_id);
+        $current_user   = Auth::User();
 
-        array_set($zona->user, 'label', $zona->user->name);
-        array_set($zona->siswa, 'label', $zona->siswa->nama_siswa);
+        if ($zona->siswa !== null) {
+            array_set($zona->siswa, 'label', $zona->siswa->nama_siswa);
+        }
 
-        $response['zona'] = $zona;
-        $response['master_zona'] = $zona->master_zona;
-        $response['sekolah'] = $zona->sekolah;
-        $response['siswa'] = $zona->siswa;
-        $response['user'] = $zona->user;
-        $response['status'] = true;
+        $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
+
+        if ($zona->user !== null) {
+            array_set($zona->user, 'label', $zona->user->name);
+        }
+
+        if($role_check){
+            $user_special = true;
+
+            foreach($users_special as $user){
+                array_set($user, 'label', $user->name);
+            }
+
+            $users = $users_special;
+        }else{
+            $user_special = false;
+
+            array_set($users_standar, 'label', $users_standar->name);
+
+            $users = $users_standar;
+        }
+
+        array_set($current_user, 'label', $current_user->name);
+
+        $response['zona']           = $zona;
+        $response['siswas']         = $siswas;
+        $response['sekolahs']       = $sekolahs;
+        $response['users']          = $users;
+        $response['user_special']   = $user_special;
+        $response['current_user']   = $current_user;
+        $response['error']          = false;
+        $response['message']        = 'Success';
+        $response['status']         = true;
 
         return response()->json($response);
     }
@@ -239,65 +274,48 @@ class ZonaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $response = array();
-        $message  = array();
-
-        $zona = $this->zona->findOrFail($id);
+        $zona = $this->zona->with(['siswa', 'sekolah', 'user'])->findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|unique:zonas,user_id,'.$id,
-            'nomor_un' => 'required|unique:zonas,nomor_un,'.$id,
-            'sekolah_id' => 'required',
-            'zona_siswa' => 'required',
-            'zona_sekolah' => 'required',
-            'lokasi_siswa' => 'required',
-            'lokasi_sekolah' => 'required',
-            'nilai_zona' => 'required',
+            'nomor_un'          => "required|exists:{$this->siswa->getTable()},nomor_un|unique:{$this->zona->getTable()},nomor_un,{$id},id,deleted_at,NULL",
+            // 'sekolah_id'        => "required|exists:{$this->sekolah->getTable()},id",
+            // 'zona_siswa'     => "required|exists:{$this->city->getTable()},id",
+            // 'zona_sekolah'   => "required|exists:{$this->village->getTable()},id",
+            // 'lokasi_siswa'   => "required|exists:{$this->district->getTable()},id",
+            // 'lokasi_sekolah' => "required|exists:{$this->village->getTable()},id",
+            // 'nilai_zona'        => 'required|numeric',
+            'user_id'           => "required|exists:{$this->user->getTable()},id",
         ]);
 
         if ($validator->fails()) {
-
-            foreach($validator->messages()->getMessages() as $key => $error){
-                        foreach($error AS $error_get) {
-                            array_push($message, $error_get);
-                        }
-                    }
-
-             $check_user  = $this->zona->where('id','!=', $id)->where('user_id', $request->user_id);
-             $check_siswa = $this->zona->where('id','!=', $id)->where('nomor_un', $request->nomor_un);
-             $check_sekolah = $this->zona->where('id','!=', $id)->where('sekolah_id', $request->sekolah_id);
-
-             if($check_user->count() > 0 || $check_siswa->count() > 0 || $check_sekolah->count() > 0){
-                  $response['message'] = implode("\n",$message);
+            $error      = true;
+            $message    = $validator->errors()->first();
         } else {
-            $zona->user_id = $request->input('user_id');
-                $zona->nomor_un = $request->input('nomor_un');
-                $zona->sekolah_id = $request->input('sekolah_id');
-                $zona->zona_siswa = $request->input('zona_siswa');
-                $zona->zona_sekolah = $request->input('zona_sekolah');
-                $zona->lokasi_siswa = $request->input('lokasi_siswa');
-                $zona->lokasi_sekolah = $request->input('lokasi_sekolah');
-                $zona->nilai_zona = $request->input('nilai_zona');
-                $zona->save();
+            $nomor_un       = $request->input('nomor_un');
+            $siswa          = $this->siswa->where('nomor_un', $nomor_un)->with(['sekolah'])->first();
+            $zona_siswa     = substr($siswa->village_id, 0, 6);
+            $zona_sekolah   = substr($siswa->sekolah->village_id, 0, 6);
+            $lokasi_siswa   = $siswa->village_id;
+            $lokasi_sekolah = $siswa->sekolah->village_id;
 
-            $response['message'] = 'success';
+            $zona->nomor_un          = $nomor_un;
+            $zona->sekolah_id        = $siswa->sekolah->id;
+            $zona->zona_siswa        = $zona_siswa;
+            $zona->zona_sekolah      = $zona_sekolah;
+            $zona->lokasi_siswa      = $lokasi_siswa;
+            $zona->lokasi_sekolah    = $lokasi_sekolah;
+            $zona->nilai_zona        = $this->zona->nilai($lokasi_siswa, $lokasi_sekolah);
+            $zona->user_id           = $request->input('user_id');
+            $zona->save();
+
+            $error      = false;
+            $message    = 'Success';
         }
 
-        } else {
-            $zona->user_id = $request->input('user_id');
-                $zona->nomor_un = $request->input('nomor_un');
-                $zona->sekolah_id = $request->input('sekolah_id');
-                $zona->zona_siswa = $request->input('zona_siswa');
-                $zona->zona_sekolah = $request->input('zona_sekolah');
-                $zona->lokasi_siswa = $request->input('lokasi_siswa');
-                $zona->lokasi_sekolah = $request->input('lokasi_sekolah');
-                $zona->nilai_zona = $request->input('nilai_zona');
-                $zona->save();
-
-                $response['message'] = 'success';
-            }
-
-                $response['status'] = true;
+        $response['zona']       = $zona;
+        $response['error']      = $error;
+        $response['message']    = $message;
+        $response['status']     = true;
 
         return response()->json($response);
     }
