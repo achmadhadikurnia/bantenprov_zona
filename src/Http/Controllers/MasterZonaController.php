@@ -168,9 +168,10 @@ class MasterZonaController extends Controller
             $message    = 'Success';
         }
 
-        $response['error']      = $error;
-        $response['message']    = $message;
-        $response['status']     = true;
+        $response['master_zona']    = $master_zona;
+        $response['error']          = $error;
+        $response['message']        = $message;
+        $response['status']         = true;
 
         return response()->json($response);
     }

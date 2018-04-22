@@ -45,12 +45,12 @@ class Zona extends Model
     {
         $nilai_zona = 0;
 
-        if($lokasi_siswa == $lokasi_sekolah){
-            $nilai_zona = config('bantenprov.zona.zona.satu_desa');
+        if ($lokasi_siswa == $lokasi_sekolah) {
+            $nilai_zona = $nilai_zona + config('bantenprov.zona.zona.satu_desa');
         }
 
-        if(substr($lokasi_siswa, 0, 6) == substr($lokasi_sekolah, 0, 6)){
-            $nilai_zona = config('bantenprov.zona.zona.satu_kecamatan');
+        if (substr($lokasi_siswa, 0, 6) == substr($lokasi_sekolah, 0, 6)) {
+            $nilai_zona = $nilai_zona + config('bantenprov.zona.zona.satu_kecamatan');
         }
 
         return $nilai_zona;

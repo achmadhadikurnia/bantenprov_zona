@@ -14,6 +14,6 @@ return [
 
     'satu_kabkota'      => 0,
     'satu_kecamatan'    => 50,
-    'satu_desa'         => 100,
+    'satu_desa'         => 50,
 
 ];
