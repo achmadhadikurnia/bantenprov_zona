@@ -95,7 +95,7 @@ class ZonaController extends Controller
         $current_user   = Auth::User();
 
         foreach($siswas as $siswa){
-            array_set($siswa, 'label', $siswa->nama_siswa);
+            array_set($siswa, 'label', $siswa->nomor_un.' - '.$siswa->nama_siswa);
         }
 
         foreach($sekolahs as $sekolah){
@@ -225,7 +225,7 @@ class ZonaController extends Controller
         $current_user   = Auth::User();
 
         if ($zona->siswa !== null) {
-            array_set($zona->siswa, 'label', $zona->siswa->nama_siswa);
+            array_set($zona->siswa, 'label', $zona->siswa->nomor_un.' - '.$zona->siswa->nama_siswa);
         }
 
         $role_check = Auth::User()->hasRole(['superadministrator','administrator']);

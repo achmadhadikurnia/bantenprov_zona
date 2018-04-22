@@ -102,7 +102,7 @@ export default {
         {
           name: 'siswa.nama_siswa',
           title: 'Nama Siswa',
-          sortField: 'siswa.nama_siswa',
+          sortField: 'nomor_un',
           titleClass: 'center aligned'
         },
         {
