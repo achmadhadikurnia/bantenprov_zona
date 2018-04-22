@@ -217,7 +217,7 @@ Vue.component('master-zona-pie-03', MasterZonaPie03);
         {
             path: '/dashboard/master-zona',
             components: {
-                main: resolve => require(['~/components/views/bantenprov/zona/master-zona/DashboardMasterZona.vue'], resolve),
+                main: resolve => require(['~/components/views/bantenprov/zona/master-zona/MasterZonaDashboard.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
                 sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
             },
@@ -229,7 +229,7 @@ Vue.component('master-zona-pie-03', MasterZonaPie03);
         {
             path: '/dashboard/zona',
             components: {
-                main: resolve => require(['~/components/views/bantenprov/zona/zona/DashboardZona.vue'], resolve),
+                main: resolve => require(['~/components/views/bantenprov/zona/zona/ZonaDashboard.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
                 sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
             },
