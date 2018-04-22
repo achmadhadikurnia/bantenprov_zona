@@ -48,9 +48,12 @@ export default {
       state: {},
       title: 'View Master Zona',
       model: {
-        tingkat : '',
-        kode    : '',
-        label   : '',
+        tingkat     : '',
+        kode        : '',
+        label       : '',
+        user_id     : '',
+        created_at  : '',
+        updated_at  : '',
 
         user    : [],
       },
