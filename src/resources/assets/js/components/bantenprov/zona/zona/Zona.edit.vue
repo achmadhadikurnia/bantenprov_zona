@@ -45,7 +45,7 @@
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Update</button>
             <button type="reset" class="btn btn-secondary" @click="reset">Reset</button>
           </div>
         </div>
