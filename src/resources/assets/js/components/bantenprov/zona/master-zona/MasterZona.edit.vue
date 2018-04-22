@@ -3,13 +3,14 @@
     <div class="card-header">
       <i class="fa fa-table" aria-hidden="true"></i> {{ title }}
 
-      <ul class="nav nav-pills card-header-pills pull-right">
-        <li class="nav-item">
-          <button class="btn btn-primary btn-sm" role="button" @click="back">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i>
-          </button>
-        </li>
-      </ul>
+      <div class="btn-group pull-right" role="group" style="display:flex;">
+        <button class="btn btn-info btn-sm" role="button" @click="view">
+          <i class="fa fa-eye" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-primary btn-sm" role="button" @click="back">
+          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
+      </div>
     </div>
 
     <div class="card-body">
@@ -18,7 +19,7 @@
           <div class="col-md">
             <validate tag="div">
               <label for="tingkat">Tingkat</label>
-              <input type="text" class="form-control" name="tingkat" v-model="model.tingkat" placeholder="Tingkat" required>
+              <input type="text" class="form-control" name="tingkat" v-model="model.tingkat" placeholder="Tingkat" required autofocus>
 
               <field-messages name="tingkat" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
@@ -206,6 +207,9 @@ export default {
 
         user        : '',
       };
+    },
+    view() {
+      window.location = '#/admin/master-zona/'+this.$route.params.id;
     },
     back() {
       window.location = '#/admin/master-zona';

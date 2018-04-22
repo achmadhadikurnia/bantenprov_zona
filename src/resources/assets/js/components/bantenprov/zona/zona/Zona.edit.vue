@@ -3,13 +3,14 @@
     <div class="card-header">
       <i class="fa fa-table" aria-hidden="true"></i> {{ title }}
 
-      <ul class="nav nav-pills card-header-pills pull-right">
-        <li class="nav-item">
-          <button class="btn btn-primary btn-sm" role="button" @click="back">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i>
-          </button>
-        </li>
-      </ul>
+      <div class="btn-group pull-right" role="group" style="display:flex;">
+        <button class="btn btn-info btn-sm" role="button" @click="view">
+          <i class="fa fa-eye" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-primary btn-sm" role="button" @click="back">
+          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
+      </div>
     </div>
 
     <div class="card-body">
@@ -18,7 +19,7 @@
           <div class="col-md">
             <validate tag="div">
               <label for="nomor_un">Siswa</label>
-              <v-select name="nomor_un" v-model="model.siswa" :options="siswa" placeholder="Siswa" required></v-select>
+              <v-select name="nomor_un" v-model="model.siswa" :options="siswa" placeholder="Siswa" required autofocus></v-select>
 
               <field-messages name="nomor_un" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
@@ -221,6 +222,9 @@ export default {
         sekolah         : '',
         user            : '',
       };
+    },
+    view() {
+      window.location = '#/admin/zona/'+this.$route.params.id;
     },
     back() {
       window.location = '#/admin/zona';

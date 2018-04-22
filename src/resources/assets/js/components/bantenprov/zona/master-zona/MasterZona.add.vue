@@ -18,7 +18,7 @@
           <div class="col-md">
             <validate tag="div">
               <label for="tingkat">Tingkat</label>
-              <input type="text" class="form-control" name="tingkat" v-model="model.tingkat" placeholder="Tingkat" required>
+              <input type="text" class="form-control" name="tingkat" v-model="model.tingkat" placeholder="Tingkat" required autofocus>
 
               <field-messages name="tingkat" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
