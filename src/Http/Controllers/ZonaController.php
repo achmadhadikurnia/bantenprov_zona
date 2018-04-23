@@ -5,6 +5,7 @@ namespace Bantenprov\Zona\Http\Controllers;
 /* Require */
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Bantenprov\Zona\Facades\ZonaFacade;
 
 /* Models */
@@ -12,6 +13,7 @@ use Bantenprov\Zona\Models\Bantenprov\Zona\Zona;
 use Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa;
 use Bantenprov\Sekolah\Models\Bantenprov\Sekolah\Sekolah;
 use App\User;
+use Bantenprov\Nilai\Models\Bantenprov\Nilai\Nilai;
 
 /* Etc */
 use Validator;
@@ -29,6 +31,7 @@ class ZonaController extends Controller
     protected $siswa;
     protected $sekolah;
     protected $user;
+    protected $nilai;
 
     /**
      * Create a new controller instance.
@@ -41,6 +44,7 @@ class ZonaController extends Controller
         $this->siswa    = new Siswa;
         $this->sekolah  = new Sekolah;
         $this->user     = new User;
+        $this->nilai    = new Nilai;
     }
 
     /**
@@ -65,7 +69,7 @@ class ZonaController extends Controller
                 $q->where('nomor_un', 'like', $value)
                     ->orWhere('lokasi_siswa', 'like', $value)
                     ->orWhere('lokasi_sekolah', 'like', $value)
-                    ->orWhere('nilai_zona', 'like', $value);
+                    ->orWhere('nilai', 'like', $value);
             });
         }
 
@@ -76,6 +80,31 @@ class ZonaController extends Controller
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', 'GET');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function get()
+    {
+        $zonas = $this->zona->with(['siswa', 'sekolah', 'user'])->get();
+
+        foreach ($zonas as $zona) {
+            if ($zona->siswa !== null) {
+                array_set($zona, 'label', $zona->siswa->nomor_un.' - '.$zona->siswa->nama_siswa);
+            } else {
+                array_set($zona, 'label', $zona->nomor_un.' - ');
+            }
+        }
+
+        $response['zonas']      = $zonas;
+        $response['error']      = false;
+        $response['message']    = 'Success';
+        $response['status']     = true;
+
+        return response()->json($response);
     }
 
     /**
@@ -94,11 +123,11 @@ class ZonaController extends Controller
         $users_standar  = $this->user->findOrFail($user_id);
         $current_user   = Auth::User();
 
-        foreach($siswas as $siswa){
+        foreach ($siswas as $siswa) {
             array_set($siswa, 'label', $siswa->nomor_un.' - '.$siswa->nama_siswa);
         }
 
-        foreach($sekolahs as $sekolah){
+        foreach ($sekolahs as $sekolah) {
             array_set($sekolah, 'label', $sekolah->nama);
         }
 
@@ -152,7 +181,7 @@ class ZonaController extends Controller
             // 'zona_sekolah'   => "required|exists:{$this->village->getTable()},id",
             // 'lokasi_siswa'   => "required|exists:{$this->district->getTable()},id",
             // 'lokasi_sekolah' => "required|exists:{$this->village->getTable()},id",
-            // 'nilai_zona'        => 'required|numeric',
+            // 'nilai'             => 'required|numeric',
             'user_id'           => "required|exists:{$this->user->getTable()},id",
         ]);
 
@@ -167,18 +196,41 @@ class ZonaController extends Controller
             $lokasi_siswa   = $siswa->village_id;
             $lokasi_sekolah = $siswa->sekolah->village_id;
 
-            $zona->nomor_un          = $nomor_un;
-            $zona->sekolah_id        = $siswa->sekolah->id;
-            $zona->zona_siswa        = $zona_siswa;
-            $zona->zona_sekolah      = $zona_sekolah;
-            $zona->lokasi_siswa      = $lokasi_siswa;
-            $zona->lokasi_sekolah    = $lokasi_sekolah;
-            $zona->nilai_zona        = $this->zona->nilai($lokasi_siswa, $lokasi_sekolah);
-            $zona->user_id           = $request->input('user_id');
-            $zona->save();
+            $zona->nomor_un         = $nomor_un;
+            $zona->sekolah_id       = $siswa->sekolah->id;
+            $zona->zona_siswa       = $zona_siswa;
+            $zona->zona_sekolah     = $zona_sekolah;
+            $zona->lokasi_siswa     = $lokasi_siswa;
+            $zona->lokasi_sekolah   = $lokasi_sekolah;
+            $zona->nilai            = $this->zona->nilai($lokasi_siswa, $lokasi_sekolah);
+            $zona->user_id          = $request->input('user_id');
 
-            $error      = false;
-            $message    = 'Success';
+            $nilai = $this->nilai->updateOrCreate(
+                [
+                    'nomor_un'  => $zona->nomor_un,
+                ],
+                [
+                    'nomor_un'  => $zona->nomor_un,
+                    'zona'      => $zona->nilai,
+                    'total'     => null,
+                    'user_id'   => $zona->user_id,
+                ]
+            );
+
+            DB::beginTransaction();
+
+            if ($zona->save() && $nilai->save())
+            {
+                DB::commit();
+
+                $error      = false;
+                $message    = 'Success';
+            } else {
+                DB::rollBack();
+
+                $error      = true;
+                $message    = 'Failed';
+            }
         }
 
         $response['zona']       = $zona;
@@ -226,6 +278,10 @@ class ZonaController extends Controller
 
         if ($zona->siswa !== null) {
             array_set($zona->siswa, 'label', $zona->siswa->nomor_un.' - '.$zona->siswa->nama_siswa);
+        }
+
+        if ($zona->sekolah !== null) {
+            array_set($zona->sekolah, 'label', $zona->sekolah->nama);
         }
 
         $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
@@ -283,7 +339,7 @@ class ZonaController extends Controller
             // 'zona_sekolah'   => "required|exists:{$this->village->getTable()},id",
             // 'lokasi_siswa'   => "required|exists:{$this->district->getTable()},id",
             // 'lokasi_sekolah' => "required|exists:{$this->village->getTable()},id",
-            // 'nilai_zona'        => 'required|numeric',
+            // 'nilai'             => 'required|numeric',
             'user_id'           => "required|exists:{$this->user->getTable()},id",
         ]);
 
@@ -298,18 +354,41 @@ class ZonaController extends Controller
             $lokasi_siswa   = $siswa->village_id;
             $lokasi_sekolah = $siswa->sekolah->village_id;
 
-            $zona->nomor_un          = $nomor_un;
-            $zona->sekolah_id        = $siswa->sekolah->id;
-            $zona->zona_siswa        = $zona_siswa;
-            $zona->zona_sekolah      = $zona_sekolah;
-            $zona->lokasi_siswa      = $lokasi_siswa;
-            $zona->lokasi_sekolah    = $lokasi_sekolah;
-            $zona->nilai_zona        = $this->zona->nilai($lokasi_siswa, $lokasi_sekolah);
-            $zona->user_id           = $request->input('user_id');
-            $zona->save();
+            $zona->nomor_un         = $nomor_un;
+            $zona->sekolah_id       = $siswa->sekolah->id;
+            $zona->zona_siswa       = $zona_siswa;
+            $zona->zona_sekolah     = $zona_sekolah;
+            $zona->lokasi_siswa     = $lokasi_siswa;
+            $zona->lokasi_sekolah   = $lokasi_sekolah;
+            $zona->nilai            = $this->zona->nilai($lokasi_siswa, $lokasi_sekolah);
+            $zona->user_id          = $request->input('user_id');
 
-            $error      = false;
-            $message    = 'Success';
+            $nilai = $this->nilai->updateOrCreate(
+                [
+                    'nomor_un'  => $zona->nomor_un,
+                ],
+                [
+                    'nomor_un'  => $zona->nomor_un,
+                    'zona'      => $zona->nilai,
+                    'total'     => null,
+                    'user_id'   => $zona->user_id,
+                ]
+            );
+
+            DB::beginTransaction();
+
+            if ($zona->save() && $nilai->save())
+            {
+                DB::commit();
+
+                $error      = false;
+                $message    = 'Success';
+            } else {
+                DB::rollBack();
+
+                $error      = true;
+                $message    = 'Failed';
+            }
         }
 
         $response['zona']       = $zona;

@@ -5,6 +5,7 @@ namespace Bantenprov\Zona\Http\Controllers;
 /* Require */
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Bantenprov\Zona\Facades\ZonaFacade;
 
 /* Models */
@@ -80,9 +81,9 @@ class MasterZonaController extends Controller
     {
         $master_zonas = $this->master_zona->with(['user'])->get();
 
-        // foreach($master_zonas as $master_zona){
-        //     array_set($master_zona, 'label', $master_zona->label);
-        // }
+        foreach ($master_zonas as $master_zona) {
+            array_set($master_zona, 'label', $master_zona->label);
+        }
 
         $response['master_zonas']   = $master_zonas;
         $response['error']          = false;
@@ -184,7 +185,7 @@ class MasterZonaController extends Controller
      */
     public function show($id)
     {
-        $master_zona    = $this->master_zona->with(['user'])->findOrFail($id);
+        $master_zona = $this->master_zona->with(['user'])->findOrFail($id);
 
         $response['master_zona']    = $master_zona;
         $response['error']          = false;

@@ -51,7 +51,7 @@ class BantenprovZonaSeederZona extends Seeder
                 'zona_sekolah' => $data['zona_sekolah'],
                 'lokasi_siswa' => $data['lokasi_siswa'],
                 'lokasi_sekolah' => $data['lokasi_sekolah'],
-                'nilai_zona' => $data['nilai_zona'],
+                'nilai' => $data['nilai'],
 
         	]);
 
@@ -74,7 +74,7 @@ class BantenprovZonaSeederZona extends Seeder
             echo"\n";
             $this->orangeText('lokasi_sekolah : ').$this->greenText($data['lokasi_sekolah']);
             echo"\n";
-            $this->orangeText('nilai_zona : ').$this->greenText($data['nilai_zona']);
+            $this->orangeText('nilai : ').$this->greenText($data['nilai']);
             echo"\n";
 
 
@@ -110,7 +110,7 @@ class BantenprovZonaSeederZona extends Seeder
                            'zona_sekolah' => $data[4],
                            'lokasi_siswa' => $data[5],
                            'lokasi_sekolah' => $data[6],
-                           'nilai_zona' => $data[7],
+                           'nilai' => $data[7],
                           ];
         }
         fclose($file);

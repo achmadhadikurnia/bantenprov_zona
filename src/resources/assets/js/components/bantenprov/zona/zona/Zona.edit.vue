@@ -70,7 +70,7 @@ export default {
         zona_sekolah    : '',
         lokasi_siswa    : '',
         lokasi_sekolah  : '',
-        nilai_zona      : '',
+        nilai      : '',
         user_id         : '',
         created_at      : '',
         updated_at      : '',
@@ -165,7 +165,7 @@ export default {
             zona_sekolah    : this.model.zona_sekolah,
             lokasi_siswa    : this.model.lokasi_siswa,
             lokasi_sekolah  : this.model.lokasi_sekolah,
-            nilai_zona      : this.model.nilai_zona,
+            nilai           : this.model.nilai,
             user_id         : this.model.user.id,
           })
           .then(response => {
@@ -214,7 +214,7 @@ export default {
         zona_sekolah    : '',
         lokasi_siswa    : '',
         lokasi_sekolah  : '',
-        nilai_zona      : '',
+        nilai      : '',
         user_id         : '',
         created_at      : '',
         updated_at      : '',
