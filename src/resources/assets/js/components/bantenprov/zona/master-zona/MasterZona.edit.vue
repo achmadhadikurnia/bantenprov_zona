@@ -23,7 +23,7 @@
 
               <field-messages name="tingkat" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">Tingkat is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -37,7 +37,7 @@
 
               <field-messages name="kode" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">Kode is a required field</small>
               </field-messages>
             </validate>
           </div>
