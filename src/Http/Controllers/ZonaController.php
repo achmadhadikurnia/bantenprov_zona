@@ -69,7 +69,7 @@ class ZonaController extends Controller
                 $q->where('nomor_un', 'like', $value)
                     ->orWhere('lokasi_siswa', 'like', $value)
                     ->orWhere('lokasi_sekolah', 'like', $value)
-                    ->orWhere('nilai_zona', 'like', $value);
+                    ->orWhere('nilai', 'like', $value);
             });
         }
 
@@ -181,7 +181,7 @@ class ZonaController extends Controller
             // 'zona_sekolah'   => "required|exists:{$this->village->getTable()},id",
             // 'lokasi_siswa'   => "required|exists:{$this->district->getTable()},id",
             // 'lokasi_sekolah' => "required|exists:{$this->village->getTable()},id",
-            // 'nilai_zona'        => 'required|numeric',
+            // 'nilai'             => 'required|numeric',
             'user_id'           => "required|exists:{$this->user->getTable()},id",
         ]);
 
@@ -196,24 +196,24 @@ class ZonaController extends Controller
             $lokasi_siswa   = $siswa->village_id;
             $lokasi_sekolah = $siswa->sekolah->village_id;
 
-            $zona->nomor_un          = $nomor_un;
-            $zona->sekolah_id        = $siswa->sekolah->id;
-            $zona->zona_siswa        = $zona_siswa;
-            $zona->zona_sekolah      = $zona_sekolah;
-            $zona->lokasi_siswa      = $lokasi_siswa;
-            $zona->lokasi_sekolah    = $lokasi_sekolah;
-            $zona->nilai_zona        = $this->zona->nilai($lokasi_siswa, $lokasi_sekolah);
-            $zona->user_id           = $request->input('user_id');
+            $zona->nomor_un         = $nomor_un;
+            $zona->sekolah_id       = $siswa->sekolah->id;
+            $zona->zona_siswa       = $zona_siswa;
+            $zona->zona_sekolah     = $zona_sekolah;
+            $zona->lokasi_siswa     = $lokasi_siswa;
+            $zona->lokasi_sekolah   = $lokasi_sekolah;
+            $zona->nilai            = $this->zona->nilai($lokasi_siswa, $lokasi_sekolah);
+            $zona->user_id          = $request->input('user_id');
 
             $nilai = $this->nilai->updateOrCreate(
                 [
-                    'nomor_un'      => $zona->nomor_un,
+                    'nomor_un'  => $zona->nomor_un,
                 ],
                 [
-                    'nomor_un'      => $zona->nomor_un,
-                    'zona'          => $zona->nilai_zona,
-                    'total'         => null,
-                    'user_id'       => $zona->user_id,
+                    'nomor_un'  => $zona->nomor_un,
+                    'zona'      => $zona->nilai,
+                    'total'     => null,
+                    'user_id'   => $zona->user_id,
                 ]
             );
 
@@ -339,7 +339,7 @@ class ZonaController extends Controller
             // 'zona_sekolah'   => "required|exists:{$this->village->getTable()},id",
             // 'lokasi_siswa'   => "required|exists:{$this->district->getTable()},id",
             // 'lokasi_sekolah' => "required|exists:{$this->village->getTable()},id",
-            // 'nilai_zona'        => 'required|numeric',
+            // 'nilai'             => 'required|numeric',
             'user_id'           => "required|exists:{$this->user->getTable()},id",
         ]);
 
@@ -354,24 +354,24 @@ class ZonaController extends Controller
             $lokasi_siswa   = $siswa->village_id;
             $lokasi_sekolah = $siswa->sekolah->village_id;
 
-            $zona->nomor_un          = $nomor_un;
-            $zona->sekolah_id        = $siswa->sekolah->id;
-            $zona->zona_siswa        = $zona_siswa;
-            $zona->zona_sekolah      = $zona_sekolah;
-            $zona->lokasi_siswa      = $lokasi_siswa;
-            $zona->lokasi_sekolah    = $lokasi_sekolah;
-            $zona->nilai_zona        = $this->zona->nilai($lokasi_siswa, $lokasi_sekolah);
-            $zona->user_id           = $request->input('user_id');
+            $zona->nomor_un         = $nomor_un;
+            $zona->sekolah_id       = $siswa->sekolah->id;
+            $zona->zona_siswa       = $zona_siswa;
+            $zona->zona_sekolah     = $zona_sekolah;
+            $zona->lokasi_siswa     = $lokasi_siswa;
+            $zona->lokasi_sekolah   = $lokasi_sekolah;
+            $zona->nilai            = $this->zona->nilai($lokasi_siswa, $lokasi_sekolah);
+            $zona->user_id          = $request->input('user_id');
 
             $nilai = $this->nilai->updateOrCreate(
                 [
-                    'nomor_un'      => $zona->nomor_un,
+                    'nomor_un'  => $zona->nomor_un,
                 ],
                 [
-                    'nomor_un'      => $zona->nomor_un,
-                    'zona'          => $zona->nilai_zona,
-                    'total'         => null,
-                    'user_id'       => $zona->user_id,
+                    'nomor_un'  => $zona->nomor_un,
+                    'zona'      => $zona->nilai,
+                    'total'     => null,
+                    'user_id'   => $zona->user_id,
                 ]
             );
 

@@ -24,8 +24,8 @@
           <dt class="col-4">Nama Sekolah</dt>
           <dd class="col-8">{{ model.sekolah.nama }}</dd>
 
-          <dt class="col-4">Nilai Zona</dt>
-          <dd class="col-8">{{ model.nilai_zona }}</dd>
+          <dt class="col-4">Nilai</dt>
+          <dd class="col-8">{{ model.nilai }}</dd>
       </dl>
     </div>
 
@@ -58,7 +58,7 @@ export default {
         zona_sekolah    : '',
         lokasi_siswa    : '',
         lokasi_sekolah  : '',
-        nilai_zona      : '',
+        nilai           : '',
         user_id         : '',
         created_at      : '',
         updated_at      : '',
@@ -81,7 +81,7 @@ export default {
           this.model.zona_sekolah   = response.data.zona.zona_sekolah;
           this.model.lokasi_siswa   = response.data.zona.lokasi_siswa;
           this.model.lokasi_sekolah = response.data.zona.lokasi_sekolah;
-          this.model.nilai_zona     = response.data.zona.nilai_zona;
+          this.model.nilai          = response.data.zona.nilai;
           this.model.user_id        = response.data.zona.user_id;
           this.model.created_at     = response.data.zona.created_at;
           this.model.updated_at     = response.data.zona.updated_at;

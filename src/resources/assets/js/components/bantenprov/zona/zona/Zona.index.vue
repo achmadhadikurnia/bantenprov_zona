@@ -113,9 +113,9 @@ export default {
           titleClass: 'center aligned'
         },
         {
-          name: 'nilai_zona',
-          title: 'Nilai Zona',
-          sortField: 'nilai_zona',
+          name: 'nilai',
+          title: 'Nilai',
+          sortField: 'nilai',
           titleClass: 'center aligned'
         },
         {

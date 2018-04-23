@@ -20,7 +20,7 @@ class CreateZonasTable extends Migration
 			$table->string('zona_sekolah')->nullable();
 			$table->string('lokasi_siswa')->nullable();
 			$table->string('lokasi_sekolah')->nullable();
-			$table->integer('nilai_zona')->nullable();
+			$table->integer('nilai')->nullable();
 			$table->integer('user_id')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
