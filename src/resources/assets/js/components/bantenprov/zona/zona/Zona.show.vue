@@ -91,15 +91,24 @@ export default {
           this.model.user           = response.data.zona.user;
 
           if (this.model.siswa === null) {
-            this.model.siswa = {'id':this.model.nomor_un, 'nama_siswa':''};
+            this.model.siswa = {
+              'id'         : this.model.nomor_un,
+              'nama_siswa' : ''
+            };
           }
 
           if (this.model.sekolah === null) {
-            this.model.sekolah = {'id':this.model.sekolah_id, 'nama':''};
+            this.model.sekolah = {
+              'id'    : this.model.sekolah_id,
+              'nama'  : ''
+            };
           }
 
           if (this.model.user === null) {
-            this.model.user = {'id':this.model.user_id, 'name':''};
+            this.model.user = {
+              'id'    : this.model.user_id,
+              'name'  : ''
+            };
           }
         } else {
           swal(

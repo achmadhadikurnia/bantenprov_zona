@@ -76,7 +76,10 @@ export default {
           this.model.user       = response.data.master_zona.user;
 
           if (this.model.user === null) {
-            this.model.user = {'id':this.model.user_id, 'name':''};
+            this.model.user = {
+              'id'    : this.model.user_id,
+              'name'  : ''
+            };
           }
         } else {
           swal(
