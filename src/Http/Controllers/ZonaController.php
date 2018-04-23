@@ -79,6 +79,27 @@ class ZonaController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function get()
+    {
+        $zonas = $this->zona->with(['siswa', 'sekolah', 'user'])->get();
+
+        // foreach($zonas as $zona){
+        //     array_set($zona, 'label', $zona->label);
+        // }
+
+        $response['zonas']      = $zonas;
+        $response['error']      = false;
+        $response['message']    = 'Success';
+        $response['status']     = true;
+
+        return response()->json($response);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
