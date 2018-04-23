@@ -184,7 +184,7 @@ class MasterZonaController extends Controller
      */
     public function show($id)
     {
-        $master_zona    = $this->master_zona->with(['user'])->findOrFail($id);
+        $master_zona = $this->master_zona->with(['user'])->findOrFail($id);
 
         $response['master_zona']    = $master_zona;
         $response['error']          = false;
