@@ -5,6 +5,7 @@ namespace Bantenprov\Zona\Http\Controllers;
 /* Require */
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Bantenprov\Zona\Facades\ZonaFacade;
 
 /* Models */
@@ -12,6 +13,7 @@ use Bantenprov\Zona\Models\Bantenprov\Zona\Zona;
 use Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa;
 use Bantenprov\Sekolah\Models\Bantenprov\Sekolah\Sekolah;
 use App\User;
+use Bantenprov\Nilai\Models\Bantenprov\Nilai\Nilai;
 
 /* Etc */
 use Validator;
@@ -29,6 +31,7 @@ class ZonaController extends Controller
     protected $siswa;
     protected $sekolah;
     protected $user;
+    protected $nilai;
 
     /**
      * Create a new controller instance.
@@ -41,6 +44,7 @@ class ZonaController extends Controller
         $this->siswa    = new Siswa;
         $this->sekolah  = new Sekolah;
         $this->user     = new User;
+        $this->nilai    = new Nilai;
     }
 
     /**
@@ -200,10 +204,33 @@ class ZonaController extends Controller
             $zona->lokasi_sekolah    = $lokasi_sekolah;
             $zona->nilai_zona        = $this->zona->nilai($lokasi_siswa, $lokasi_sekolah);
             $zona->user_id           = $request->input('user_id');
-            $zona->save();
 
-            $error      = false;
-            $message    = 'Success';
+            $nilai = $this->nilai->updateOrCreate(
+                [
+                    'nomor_un'      => $zona->nomor_un,
+                ],
+                [
+                    'nomor_un'      => $zona->nomor_un,
+                    'zona'          => $zona->nilai_zona,
+                    'total'         => null,
+                    'user_id'       => $zona->user_id,
+                ]
+            );
+
+            DB::beginTransaction();
+
+            if ($zona->save() && $nilai->save())
+            {
+                DB::commit();
+
+                $error      = false;
+                $message    = 'Success';
+            } else {
+                DB::rollBack();
+
+                $error      = true;
+                $message    = 'Failed';
+            }
         }
 
         $response['zona']       = $zona;
@@ -335,10 +362,33 @@ class ZonaController extends Controller
             $zona->lokasi_sekolah    = $lokasi_sekolah;
             $zona->nilai_zona        = $this->zona->nilai($lokasi_siswa, $lokasi_sekolah);
             $zona->user_id           = $request->input('user_id');
-            $zona->save();
 
-            $error      = false;
-            $message    = 'Success';
+            $nilai = $this->nilai->updateOrCreate(
+                [
+                    'nomor_un'      => $zona->nomor_un,
+                ],
+                [
+                    'nomor_un'      => $zona->nomor_un,
+                    'zona'          => $zona->nilai_zona,
+                    'total'         => null,
+                    'user_id'       => $zona->user_id,
+                ]
+            );
+
+            DB::beginTransaction();
+
+            if ($zona->save() && $nilai->save())
+            {
+                DB::commit();
+
+                $error      = false;
+                $message    = 'Success';
+            } else {
+                DB::rollBack();
+
+                $error      = true;
+                $message    = 'Failed';
+            }
         }
 
         $response['zona']       = $zona;
