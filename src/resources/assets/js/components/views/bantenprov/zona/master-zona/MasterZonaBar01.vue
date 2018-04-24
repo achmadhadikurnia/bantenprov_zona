@@ -140,7 +140,7 @@ export default {
     }
   },
   mounted: function () {
-    axios.get('/json/bantenprov/zona/zona-010.json').then(response => {
+    axios.get('/json/bantenprov/zona/master-zona/master-zona-010.json').then(response => {
 
       let ke = 0;
 

@@ -104,7 +104,7 @@ export default {
     }
   },
   mounted: function () {
-    axios.get('/json/bantenprov/zona/zona-pie-020.json').then(response => {
+    axios.get('/json/bantenprov/zona/zona/zona-pie-020.json').then(response => {
 
       let ke = 0;
 

@@ -14,14 +14,14 @@ class CreateZonasTable extends Migration
 	{
 		Schema::create('zonas', function(Blueprint $table) {
 			$table->increments('id');
-			$table->integer('user_id');
-			$table->integer('nomor_un');
-			$table->integer('sekolah_id');
-			$table->integer('zona_siswa')->nullable();
-			$table->integer('zona_sekolah')->nullable();
-			$table->integer('lokasi_siswa')->nullable();
-			$table->integer('lokasi_sekolah')->nullable();
-			$table->integer('nilai_zona');
+			$table->string('nomor_un');
+			$table->integer('sekolah_id')->nullable();
+			$table->string('zona_siswa')->nullable();
+			$table->string('zona_sekolah')->nullable();
+			$table->string('lokasi_siswa')->nullable();
+			$table->string('lokasi_sekolah')->nullable();
+			$table->integer('nilai')->nullable();
+			$table->integer('user_id')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 		});

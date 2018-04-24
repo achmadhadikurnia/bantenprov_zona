@@ -18,40 +18,12 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <label for="tingkat">Tingkat</label>
-              <input type="text" class="form-control" name="tingkat" v-model="model.tingkat" placeholder="Tingkat" required autofocus>
+              <label for="nomor_un">Siswa</label>
+              <v-select name="nomor_un" v-model="model.siswa" :options="siswa" placeholder="Siswa" required autofocus disabled></v-select>
 
-              <field-messages name="tingkat" show="$invalid && $submitted" class="text-danger">
+              <field-messages name="nomor_un" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Tingkat is a required field</small>
-              </field-messages>
-            </validate>
-          </div>
-        </div>
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <validate tag="div">
-              <label for="kode">Kode</label>
-              <input type="text" class="form-control" name="kode" v-model="model.kode" placeholder="Kode" required>
-
-              <field-messages name="kode" show="$invalid && $submitted" class="text-danger">
-                <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Kode is a required field</small>
-              </field-messages>
-            </validate>
-          </div>
-        </div>
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <validate tag="div">
-              <label for="label">Label</label>
-              <input type="text" class="form-control" name="label" v-model="model.label" placeholder="Label" required>
-
-              <field-messages name="label" show="$invalid && $submitted" class="text-danger">
-                <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">Siswa is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -90,35 +62,42 @@ export default {
   data() {
     return {
       state: {},
-      title: 'Edit Master Zona',
+      title: 'Edit Zona',
       model: {
-        tingkat     : '',
-        kode        : '',
-        label       : '',
-        user_id     : '',
-        created_at  : '',
-        updated_at  : '',
+        nomor_un        : '',
+        sekolah_id      : '',
+        zona_siswa      : '',
+        zona_sekolah    : '',
+        lokasi_siswa    : '',
+        lokasi_sekolah  : '',
+        nilai           : '',
+        user_id         : '',
+        created_at      : '',
+        updated_at      : '',
 
-        user        : '',
+        siswa           : '',
+        sekolah         : '',
+        user            : '',
       },
-      user  : [],
+      siswa   : [],
+      sekolah : [],
+      user    : [],
     }
   },
   mounted(){
     let app = this;
 
-    axios.get('api/master-zona/'+this.$route.params.id+'/edit')
+    axios.get('api/zona/'+this.$route.params.id+'/edit')
       .then(response => {
         if (response.data.status == true && response.data.error == false) {
-          this.model.tingkat  = response.data.master_zona.tingkat;
-          this.model.kode     = response.data.master_zona.kode;
-          this.model.label    = response.data.master_zona.label;
-          this.model.user_id  = response.data.master_zona.user_id;
+          this.model.user_id  = response.data.zona.user_id;
 
-          if (response.data.master_zona.user === null) {
+          this.model.siswa    = response.data.zona.siswa;
+
+          if (response.data.zona.user === null) {
             this.model.user = response.data.current_user;
           } else {
-            this.model.user = response.data.master_zona.user;
+            this.model.user = response.data.zona.user;
           }
 
           if(response.data.user_special == true){
@@ -126,6 +105,32 @@ export default {
           }else{
             this.user.push(response.data.users);
           }
+        } else {
+          swal(
+            'Failed',
+            'Oops... '+response.data.message,
+            'error'
+          );
+
+          app.back();
+        }
+      })
+      .catch(function(response) {
+        swal(
+          'Not Found',
+          'Oops... Your page is not found.',
+          'error'
+        );
+
+        app.back();
+      });
+
+    axios.get('api/siswa/get')
+      .then(response => {
+        if (response.data.status == true && response.data.error == false) {
+          response.data.siswas.forEach(element => {
+            this.siswa.push(element);
+          });
         } else {
           swal(
             'Failed',
@@ -153,11 +158,15 @@ export default {
       if (this.state.$invalid) {
         return;
       } else {
-        axios.put('api/master-zona/'+this.$route.params.id, {
-            tingkat : this.model.tingkat,
-            kode    : this.model.kode,
-            label   : this.model.label,
-            user_id : this.model.user.id,
+        axios.put('api/zona/'+this.$route.params.id, {
+            nomor_un        : this.model.siswa.nomor_un ,
+            sekolah_id      : this.model.sekolah_id,
+            zona_siswa      : this.model.zona_siswa,
+            zona_sekolah    : this.model.zona_sekolah,
+            lokasi_siswa    : this.model.lokasi_siswa,
+            lokasi_sekolah  : this.model.lokasi_sekolah,
+            nilai           : this.model.nilai,
+            user_id         : this.model.user.id,
           })
           .then(response => {
             if (response.data.status == true) {
@@ -199,21 +208,27 @@ export default {
     },
     reset() {
       this.model = {
-        tingkat     : '',
-        kode        : '',
-        label       : '',
-        user_id     : '',
-        created_at  : '',
-        updated_at  : '',
+        nomor_un        : '',
+        sekolah_id      : '',
+        zona_siswa      : '',
+        zona_sekolah    : '',
+        lokasi_siswa    : '',
+        lokasi_sekolah  : '',
+        nilai      : '',
+        user_id         : '',
+        created_at      : '',
+        updated_at      : '',
 
-        user        : '',
+        siswa           : '',
+        sekolah         : '',
+        user            : '',
       };
     },
     view() {
-      window.location = '#/admin/master-zona/'+this.$route.params.id;
+      window.location = '#/admin/zona/'+this.$route.params.id;
     },
     back() {
-      window.location = '#/admin/master-zona';
+      window.location = '#/admin/zona';
     }
   }
 }
