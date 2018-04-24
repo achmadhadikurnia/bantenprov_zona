@@ -70,7 +70,7 @@ export default {
         zona_sekolah    : '',
         lokasi_siswa    : '',
         lokasi_sekolah  : '',
-        nilai      : '',
+        nilai           : '',
         user_id         : '',
         created_at      : '',
         updated_at      : '',
