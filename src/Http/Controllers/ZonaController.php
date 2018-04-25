@@ -68,8 +68,7 @@ class ZonaController extends Controller
 
                 $q->where('nomor_un', 'like', $value)
                     ->orWhere('lokasi_siswa', 'like', $value)
-                    ->orWhere('lokasi_sekolah', 'like', $value)
-                    ->orWhere('nilai', 'like', $value);
+                    ->orWhere('lokasi_sekolah', 'like', $value);
             });
         }
 
