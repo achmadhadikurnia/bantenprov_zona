@@ -12,14 +12,18 @@ class MasterZona extends Model
     public $timestamps = true;
 
     protected $table = 'master_zonas';
-    protected $dates = [
-        'deleted_at',
-    ];
     protected $fillable = [
         'user_id',
         'tingkat',
         'kode',
         'label',
+    ];
+    protected $hidden = [
+    ];
+    protected $appends = [
+    ];
+    protected $dates = [
+        'deleted_at',
     ];
 
     public function user()

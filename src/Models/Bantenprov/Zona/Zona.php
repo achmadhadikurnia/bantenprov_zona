@@ -12,9 +12,6 @@ class Zona extends Model
     public $timestamps = true;
 
     protected $table = 'zonas';
-    protected $dates = [
-        'deleted_at',
-    ];
     protected $fillable = [
         'nomor_un',
         'sekolah_id',
@@ -25,8 +22,13 @@ class Zona extends Model
         'nilai',
         'user_id',
     ];
+    protected $hidden = [
+    ];
     protected $appends = [
         'label',
+    ];
+    protected $dates = [
+        'deleted_at',
     ];
 
     public function getLabelAttribute()
