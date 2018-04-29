@@ -13,13 +13,13 @@ class MasterZona extends Model
 
     protected $table = 'master_zonas';
     protected $dates = [
-        'deleted_at'
+        'deleted_at',
     ];
     protected $fillable = [
         'user_id',
         'tingkat',
         'kode',
-        'label'
+        'label',
     ];
 
     public function user()
