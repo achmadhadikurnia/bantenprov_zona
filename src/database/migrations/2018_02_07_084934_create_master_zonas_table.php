@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateZonasTable extends Migration
+class CreateMasterZonasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,11 @@ class CreateZonasTable extends Migration
      */
 	public function up()
 	{
-		Schema::create('zonas', function(Blueprint $table) {
+		Schema::create('master_zonas', function(Blueprint $table) {
 			$table->increments('id');
-			$table->string('nomor_un');
-			$table->integer('sekolah_id')->nullable();
-			$table->string('zona_siswa')->nullable();
-			$table->string('zona_sekolah')->nullable();
-			$table->string('lokasi_siswa')->nullable();
-			$table->string('lokasi_sekolah')->nullable();
-			$table->integer('nilai')->nullable();
+			$table->string('tingkat');
+			$table->string('kode');
+			$table->string('label');
 			$table->integer('user_id')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
@@ -34,6 +30,6 @@ class CreateZonasTable extends Migration
      */
 	public function down()
 	{
-		Schema::drop('zonas');
+		Schema::drop('master_zonas');
 	}
 }
