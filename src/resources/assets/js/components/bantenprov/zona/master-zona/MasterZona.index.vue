@@ -31,7 +31,7 @@
           :sort-order="sortOrder"
           :css="css.table"
           pagination-path=""
-          :per-page="5"
+          :per-page="10"
           :append-params="moreParams"
           @vuetable:pagination-data="onPaginationData"
           @vuetable:loading="onLoading"
