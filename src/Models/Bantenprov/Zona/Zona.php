@@ -29,6 +29,15 @@ class Zona extends Model
         'label',
     ];
 
+    public function getLabelAttribute()
+    {
+        if ($this->siswa !== null) {
+            return $this->siswa->nomor_un.' - '.$this->siswa->nama_siswa;
+        } else {
+            return $this->nomor_un.' - ';
+        }
+    }
+
     public function siswa()
     {
         return $this->belongsTo('Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa','nomor_un','nomor_un');
@@ -57,14 +66,5 @@ class Zona extends Model
         }
 
         return $nilai;
-    }
-
-    public function getLabelAttribute()
-    {
-        if ($this->siswa !== null) {
-            return $this->siswa->nomor_un.' - '.$this->siswa->nama_siswa;
-        } else {
-            return $this->nomor_un.' - ';
-        }
     }
 }
