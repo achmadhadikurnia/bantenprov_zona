@@ -159,6 +159,7 @@ class MasterZonaController extends Controller
             $error      = true;
             $message    = $validator->errors()->first();
         } else {
+            $master_zona->id        = $request->input('kode');
             $master_zona->tingkat   = $request->input('tingkat');
             $master_zona->kode      = $request->input('kode');
             $master_zona->label     = $request->input('label');
@@ -267,6 +268,7 @@ class MasterZonaController extends Controller
             $error      = true;
             $message    = $validator->errors()->first();
         } else {
+            $master_zona->id        = $request->input('kode');
             $master_zona->tingkat   = $request->input('tingkat');
             $master_zona->kode      = $request->input('kode');
             $master_zona->label     = $request->input('label');
