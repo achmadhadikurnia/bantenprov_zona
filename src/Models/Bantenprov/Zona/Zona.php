@@ -13,7 +13,7 @@ class Zona extends Model
 
     protected $table = 'zonas';
     protected $dates = [
-        'deleted_at'
+        'deleted_at',
     ];
     protected $fillable = [
         'nomor_un',
@@ -24,6 +24,9 @@ class Zona extends Model
         'lokasi_sekolah',
         'nilai',
         'user_id',
+    ];
+    protected $appends = [
+        'label',
     ];
 
     public function siswa()
@@ -54,5 +57,14 @@ class Zona extends Model
         }
 
         return $nilai;
+    }
+
+    public function getLabelAttribute()
+    {
+        if ($this->siswa !== null) {
+            return $this->siswa->nomor_un.' - '.$this->siswa->nama_siswa;
+        } else {
+            return $this->nomor_un.' - ';
+        }
     }
 }

@@ -81,10 +81,6 @@ class MasterZonaController extends Controller
     {
         $master_zonas = $this->master_zona->with(['user'])->get();
 
-        foreach ($master_zonas as $master_zona) {
-            array_set($master_zona, 'label', $master_zona->label);
-        }
-
         $response['master_zonas']   = $master_zonas;
         $response['error']          = false;
         $response['message']        = 'Success';

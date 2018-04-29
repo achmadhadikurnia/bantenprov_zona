@@ -90,14 +90,6 @@ class ZonaController extends Controller
     {
         $zonas = $this->zona->with(['siswa', 'sekolah', 'user'])->get();
 
-        foreach ($zonas as $zona) {
-            if ($zona->siswa !== null) {
-                array_set($zona, 'label', $zona->siswa->nomor_un.' - '.$zona->siswa->nama_siswa);
-            } else {
-                array_set($zona, 'label', $zona->nomor_un.' - ');
-            }
-        }
-
         $response['zonas']      = $zonas;
         $response['error']      = false;
         $response['message']    = 'Success';
