@@ -26,7 +26,7 @@
 
       <div class="table-responsive">
         <vuetable ref="vuetable"
-          api-url="/api/zona"
+          :api-url="api_url"
           :fields="fields"
           :sort-order="sortOrder"
           :css="css.table"
@@ -85,6 +85,7 @@ export default {
     return {
       loading: true,
       title: 'Zona',
+      api_url: '/api/zona',
       fields: [
         {
           name: '__sequence',
