@@ -49,7 +49,6 @@
             <button type="reset" class="btn btn-secondary" @click="reset">Reset</button>
           </div>
         </div>
-
       </vue-form>
     </div>
   </div>
@@ -90,9 +89,19 @@ export default {
     axios.get('api/zona/'+this.$route.params.id+'/edit')
       .then(response => {
         if (response.data.status == true && response.data.error == false) {
-          this.model.user_id  = response.data.zona.user_id;
+          this.model.nomor_un       = response.data.zona.nomor_un;
+          this.model.sekolah_id     = response.data.zona.sekolah_id;
+          this.model.zona_siswa     = response.data.zona.zona_siswa;
+          this.model.zona_sekolah   = response.data.zona.zona_sekolah;
+          this.model.lokasi_siswa   = response.data.zona.lokasi_siswa;
+          this.model.lokasi_sekolah = response.data.zona.lokasi_sekolah;
+          this.model.nilai          = response.data.zona.nilai;
+          this.model.user_id        = response.data.zona.user_id;
+          this.model.created_at     = response.data.zona.created_at;
+          this.model.updated_at     = response.data.zona.updated_at;
 
-          this.model.siswa    = response.data.zona.siswa;
+          this.model.siswa          = response.data.zona.siswa;
+          this.model.sekolah        = response.data.zona.sekolah;
 
           if (response.data.zona.user === null) {
             this.model.user = response.data.current_user;
@@ -159,7 +168,7 @@ export default {
         return;
       } else {
         axios.put('api/zona/'+this.$route.params.id, {
-            nomor_un        : this.model.siswa.nomor_un ,
+            nomor_un        : this.model.siswa.nomor_un,
             sekolah_id      : this.model.sekolah_id,
             zona_siswa      : this.model.zona_siswa,
             zona_sekolah    : this.model.zona_sekolah,

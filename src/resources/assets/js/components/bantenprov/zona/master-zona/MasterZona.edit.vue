@@ -77,7 +77,6 @@
             <button type="reset" class="btn btn-secondary" @click="reset">Reset</button>
           </div>
         </div>
-
       </vue-form>
     </div>
   </div>
@@ -110,10 +109,12 @@ export default {
     axios.get('api/master-zona/'+this.$route.params.id+'/edit')
       .then(response => {
         if (response.data.status == true && response.data.error == false) {
-          this.model.tingkat  = response.data.master_zona.tingkat;
-          this.model.kode     = response.data.master_zona.kode;
-          this.model.label    = response.data.master_zona.label;
-          this.model.user_id  = response.data.master_zona.user_id;
+          this.model.tingkat    = response.data.master_zona.tingkat;
+          this.model.kode       = response.data.master_zona.kode;
+          this.model.label      = response.data.master_zona.label;
+          this.model.user_id    = response.data.master_zona.user_id;
+          this.model.created_at = response.data.master_zona.created_at;
+          this.model.updated_at = response.data.master_zona.updated_at;
 
           if (response.data.master_zona.user === null) {
             this.model.user = response.data.current_user;
