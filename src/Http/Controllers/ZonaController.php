@@ -267,14 +267,6 @@ class ZonaController extends Controller
         $users_standar  = $this->user->findOrFail($user_id);
         $current_user   = Auth::User();
 
-        if ($zona->siswa !== null) {
-            array_set($zona->siswa, 'label', $zona->siswa->nomor_un.' - '.$zona->siswa->nama_siswa);
-        }
-
-        if ($zona->sekolah !== null) {
-            array_set($zona->sekolah, 'label', $zona->sekolah->nama);
-        }
-
         $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
 
         if ($zona->user !== null) {
