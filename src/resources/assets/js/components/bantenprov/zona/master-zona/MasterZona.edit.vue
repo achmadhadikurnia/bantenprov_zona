@@ -4,8 +4,14 @@
       <i class="fa fa-table" aria-hidden="true"></i> {{ title }}
 
       <div class="btn-group pull-right" role="group" style="display:flex;">
-        <button class="btn btn-info btn-sm" role="button" @click="view">
+        <button class="btn btn-primary btn-sm" role="button" @click="createRow">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-info btn-sm" role="button" @click="viewRow">
           <i class="fa fa-eye" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-danger btn-sm" role="button" @click="deleteRow">
+          <i class="fa fa-trash" aria-hidden="true"></i>
         </button>
         <button class="btn btn-primary btn-sm" role="button" @click="back">
           <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -210,8 +216,63 @@ export default {
         user        : '',
       };
     },
-    view() {
+    createRow() {
+      window.location = '#/admin/master-zona/create';
+    },
+    viewRow() {
       window.location = '#/admin/master-zona/'+this.$route.params.id;
+    },
+    deleteRow() {
+      let app = this;
+
+      swal({
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value) {
+          axios.delete('/api/master-zona/'+this.$route.params.id)
+            .then(function(response) {
+              if (response.data.status == true) {
+                app.back();
+
+                swal(
+                  'Deleted',
+                  'Yeah!!! Your data has been deleted.',
+                  'success'
+                );
+              } else {
+                swal(
+                  'Failed',
+                  'Oops... Failed to delete data.',
+                  'error'
+                );
+              }
+            })
+            .catch(function(response) {
+              swal(
+                'Not Found',
+                'Oops... Your page is not found.',
+                'error'
+              );
+            });
+        } else if (result.dismiss === swal.DismissReason.cancel) {
+          swal(
+            'Cancelled',
+            'Your data is safe.',
+            'error'
+          );
+        }
+      });
     },
     back() {
       window.location = '#/admin/master-zona';
