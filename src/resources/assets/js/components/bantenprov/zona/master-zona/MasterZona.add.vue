@@ -76,7 +76,6 @@
             <button type="reset" class="btn btn-secondary" @click="reset">Reset</button>
           </div>
         </div>
-
       </vue-form>
     </div>
   </div>
@@ -111,9 +110,9 @@ export default {
         if (response.data.status == true && response.data.error == false) {
           this.model.user = response.data.current_user;
 
-          if(response.data.user_special == true){
+          if (response.data.user_special == true) {
             this.user = response.data.users;
-          }else{
+          } else {
             this.user.push(response.data.users);
           }
         } else {
@@ -151,7 +150,7 @@ export default {
           })
           .then(response => {
             if (response.data.status == true) {
-              if(response.data.error == false){
+              if (response.data.error == false) {
                 swal(
                   'Created',
                   'Yeah!!! Your data has been created.',
@@ -159,7 +158,7 @@ export default {
                 );
 
                 app.back();
-              }else{
+              } else {
                 swal(
                   'Failed',
                   'Oops... '+response.data.message,

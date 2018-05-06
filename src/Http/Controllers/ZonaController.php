@@ -68,8 +68,7 @@ class ZonaController extends Controller
 
                 $q->where('nomor_un', 'like', $value)
                     ->orWhere('lokasi_siswa', 'like', $value)
-                    ->orWhere('lokasi_sekolah', 'like', $value)
-                    ->orWhere('nilai', 'like', $value);
+                    ->orWhere('lokasi_sekolah', 'like', $value);
             });
         }
 
@@ -90,14 +89,6 @@ class ZonaController extends Controller
     public function get()
     {
         $zonas = $this->zona->with(['siswa', 'sekolah', 'user'])->get();
-
-        foreach ($zonas as $zona) {
-            if ($zona->siswa !== null) {
-                array_set($zona, 'label', $zona->siswa->nomor_un.' - '.$zona->siswa->nama_siswa);
-            } else {
-                array_set($zona, 'label', $zona->nomor_un.' - ');
-            }
-        }
 
         $response['zonas']      = $zonas;
         $response['error']      = false;
@@ -136,7 +127,7 @@ class ZonaController extends Controller
         if ($role_check) {
             $user_special = true;
 
-            foreach($users_special as $user){
+            foreach ($users_special as $user) {
                 array_set($user, 'label', $user->name);
             }
 
@@ -276,14 +267,6 @@ class ZonaController extends Controller
         $users_standar  = $this->user->findOrFail($user_id);
         $current_user   = Auth::User();
 
-        if ($zona->siswa !== null) {
-            array_set($zona->siswa, 'label', $zona->siswa->nomor_un.' - '.$zona->siswa->nama_siswa);
-        }
-
-        if ($zona->sekolah !== null) {
-            array_set($zona->sekolah, 'label', $zona->sekolah->nama);
-        }
-
         $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
 
         if ($zona->user !== null) {
@@ -293,7 +276,7 @@ class ZonaController extends Controller
         if ($role_check) {
             $user_special = true;
 
-            foreach($users_special as $user){
+            foreach ($users_special as $user) {
                 array_set($user, 'label', $user->name);
             }
 
