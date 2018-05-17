@@ -11,6 +11,7 @@ class BantenprovZonaSeeder extends Seeder
      */
     public function run()
     {
-         $this->call(BantenprovZonaSeederZona::class);
+        $this->call(BantenprovZonaSeederMasterZona::class);
+        $this->call(BantenprovZonaSeederZona::class);
     }
 }

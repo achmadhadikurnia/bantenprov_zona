@@ -1,12 +1,12 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Zona
+      <i class="fa fa-table" aria-hidden="true"></i> {{ title }}
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
           <button class="btn btn-primary btn-sm" role="button" @click="createRow">
-          	<i class="fa fa-plus" aria-hidden="true"></i>
+            <i class="fa fa-plus" aria-hidden="true"></i>
           </button>
         </li>
       </ul>
@@ -26,12 +26,12 @@
 
       <div class="table-responsive">
         <vuetable ref="vuetable"
-          api-url="/api/zona"
+          :api-url="api_url"
           :fields="fields"
           :sort-order="sortOrder"
           :css="css.table"
           pagination-path=""
-          :per-page="5"
+          :per-page="10"
           :append-params="moreParams"
           @vuetable:pagination-data="onPaginationData"
           @vuetable:loading="onLoading"
@@ -53,8 +53,7 @@
       </div>
 
       <div class="d-flex justify-content-between align-items-center">
-        <vuetable-pagination-info ref="paginationInfo"
-        ></vuetable-pagination-info>
+        <vuetable-pagination-info ref="paginationInfo"></vuetable-pagination-info>
         <vuetable-pagination ref="pagination"
           :css="css.pagination"
           @vuetable-pagination:change-page="onChangePage">
@@ -75,6 +74,7 @@
 </style>
 
 <script>
+import swal from 'sweetalert2';
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo';
 
 export default {
@@ -84,6 +84,8 @@ export default {
   data() {
     return {
       loading: true,
+      title: 'Zona',
+      api_url: '/api/zona',
       fields: [
         {
           name: '__sequence',
@@ -92,27 +94,28 @@ export default {
           dataClass: 'right aligned'
         },
         {
-          name: 'label',
-          title: 'Label',
-          sortField: 'label',
+          name: 'nomor_un',
+          title: 'Nomor UN',
+          sortField: 'nomor_un',
           titleClass: 'center aligned'
         },
         {
-          name: 'user.name',
-          title: 'Username',
-          sortField: 'user_id',
+          name: 'siswa.nama_siswa',
+          title: 'Nama Siswa',
+          sortField: 'nomor_un',
+          titleClass: 'center aligned',
+          sort: false
+        },
+        {
+          name: 'sekolah.nama',
+          title: 'Sekolah',
+          sortField: 'sekolah_id',
           titleClass: 'center aligned'
         },
         {
-          name: 'kegiatan.label',
-          title: 'Kegiatan',
-          sortField: 'kegiatan_id',
-          titleClass: 'center aligned'
-        },
-        {
-          name: 'description',
-          title: 'Description',
-          sortField: 'description',
+          name: 'nilai',
+          title: 'Nilai',
+          sortField: 'nilai',
           titleClass: 'center aligned'
         },
         {
@@ -123,7 +126,7 @@ export default {
         },
       ],
       sortOrder: [{
-        field: 'label',
+        field: 'nomor_un',
         direction: 'asc'
       }],
       moreParams: {},
@@ -150,32 +153,6 @@ export default {
     }
   },
   methods: {
-    createRow() {
-      window.location = '#/admin/zona/create';
-    },
-    viewRow(rowData) {
-      window.location = '#/admin/zona/' + rowData.id;
-    },
-    editRow(rowData) {
-      window.location = '#/admin/zona/' + rowData.id + '/edit';
-    },
-    deleteRow(rowData) {
-      let app = this;
-
-      if (confirm('Do you really want to delete it?')) {
-        axios.delete('/api/zona/' + rowData.id)
-          .then(function(response) {
-            if (response.data.status == true) {
-              app.$refs.vuetable.reload()
-            } else {
-              alert('Failed');
-            }
-          })
-          .catch(function(response) {
-            alert('Break');
-          });
-      }
-    },
     onPaginationData(paginationData) {
       this.$refs.pagination.setPaginationData(paginationData);
       this.$refs.paginationInfo.setPaginationData(paginationData);
@@ -188,6 +165,67 @@ export default {
     },
     onLoaded: function() {
       this.loading = false;
+    },
+    createRow() {
+      window.location = '#/admin/zona/create';
+    },
+    viewRow(rowData) {
+      window.location = '#/admin/zona/'+rowData.id;
+    },
+    editRow(rowData) {
+      window.location = '#/admin/zona/'+rowData.id+'/edit';
+    },
+    deleteRow(rowData) {
+      let app = this;
+
+      swal({
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value) {
+          axios.delete('/api/zona/'+rowData.id)
+            .then(function(response) {
+              if (response.data.status == true) {
+                app.$refs.vuetable.reload();
+
+                swal(
+                  'Deleted',
+                  'Yeah!!! Your data has been deleted.',
+                  'success'
+                );
+              } else {
+                swal(
+                  'Failed',
+                  'Oops... Failed to delete data.',
+                  'error'
+                );
+              }
+            })
+            .catch(function(response) {
+              swal(
+                'Not Found',
+                'Oops... Your page is not found.',
+                'error'
+              );
+            });
+        } else if (result.dismiss === swal.DismissReason.cancel) {
+          swal(
+            'Cancelled',
+            'Your data is safe.',
+            'error'
+          );
+        }
+      });
     }
   },
   events: {

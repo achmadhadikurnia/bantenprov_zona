@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%; height: 400px;">
+  <div style="width: 100%; height: 200px;">
     <IEcharts :option="bar" :loading="loading" :resizable="true"></IEcharts>
   </div>
 </template>
@@ -75,10 +75,10 @@ export default {
             show: true
           },
           splitArea: {
-            show: true
+            show: false
           },
           splitLine: {
-            show: true,
+            show: false,
             lineStyle: {
               width: 1,
               type: 'solid',
@@ -87,7 +87,7 @@ export default {
           }
         },
         yAxis: {
-          show: true,
+          show: false,
           axisLabel: {
             show: true,
             fontSize: 10,
@@ -107,10 +107,10 @@ export default {
             show: true
           },
           splitArea: {
-            show: true
+            show: false
           },
           splitLine: {
-            show: true,
+            show: false,
             lineStyle: {
               width: 1,
               type: 'solid',
@@ -121,11 +121,11 @@ export default {
         series: [{
           type: 'bar',
           data: [],
-          barWidth: 30,
+          barWidth: 20,
           barGap: '30%',
           cursor: 'default',
           itemStyle: {
-            color: '#FFEB3B'
+            color: '#CDDC39'
           }
         }],
         label: {
@@ -140,7 +140,7 @@ export default {
     }
   },
   mounted: function () {
-    axios.get('/json/bantenprov/zona/zona-010.json').then(response => {
+    axios.get('/json/bantenprov/zona/master-zona/master-zona-030.json').then(response => {
 
       let ke = 0;
 

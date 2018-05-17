@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Demo Config
+    | Zona Config
     |--------------------------------------------------------------------------
     |
     | The following config lines are used for development of package
@@ -12,6 +12,8 @@ return [
     |
     */
 
-    'key' => 'value'
+    'satu_kabkota'      => 0,
+    'satu_kecamatan'    => 50,
+    'satu_desa'         => 50,
 
 ];
