@@ -17,19 +17,19 @@ Zona
 - Development snapshot
 
 ```bash
-$ composer require bantenprov/zona:dev-master
+composer require bantenprov/zona:dev-master
 ```
 
 - Latest release:
 
 ```bash
-$ composer require bantenprov/zona
+composer require bantenprov/zona
 ```
 
 ### Download via github
 
 ```bash
-$ git clone https://github.com/bantenprov/zona.git
+git clone https://github.com/bantenprov/zona.git
 ```
 
 #### Edit `config/app.php` :
@@ -48,12 +48,12 @@ $ git clone https://github.com/bantenprov/zona.git
     //...
     Bantenprov\Zona\ZonaServiceProvider::class,
     //...
+],
 ```
 
 #### Edit `app/Http/Kernel.php`
 
 ```php
-
 protected $routeMiddleware = [
     'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
     'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
@@ -61,38 +61,45 @@ protected $routeMiddleware = [
     'can' => \Illuminate\Auth\Middleware\Authorize::class,
     'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
     'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-    
-    // -----------------
-
+    //...
     'role' => \Laratrust\Middleware\LaratrustRole::class,
     'permission' => \Laratrust\Middleware\LaratrustPermission::class,
     'ability' => \Laratrust\Middleware\LaratrustAbility::class,
+    //...
 ];
-
 ```
 
 #### Lakukan migrate :
 
 ```bash
-$ php artisan migrate
+php artisan migrate
 ```
 
 #### Lakukan publish semua komponen :
 
 ```bash
-$ php artisan vendor:publish --tag=zona-publish
+php artisan vendor:publish --tag=zona-publish
 ```
 
 #### Lakukan auto dump :
 
 ```bash
-$ composer dump-autoload
+composer dump-autoload
 ```
 
 #### Lakukan seeding :
 
+- Seeding semua seeder
+
 ```bash
-$ php artisan db:seed --class=BantenprovZonaSeeder
+php artisan db:seed --class=BantenprovZonaSeeder
+```
+
+- Seeding secara individual
+
+```bash
+php artisan db:seed --class=BantenprovZonaSeederMasterZona
+php artisan db:seed --class=BantenprovZonaSeederZona
 ```
 
 #### Edit menu `resources/assets/js/menu.js`
