@@ -14,6 +14,7 @@ use Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa;
 use Bantenprov\Sekolah\Models\Bantenprov\Sekolah\Sekolah;
 use App\User;
 use Bantenprov\Nilai\Models\Bantenprov\Nilai\Nilai;
+use Bantenprov\Sekolah\Models\Bantenprov\Sekolah\AdminSekolah;
 
 /* Etc */
 use Validator;
@@ -32,6 +33,7 @@ class ZonaController extends Controller
     protected $sekolah;
     protected $user;
     protected $nilai;
+    protected $admin_sekolah;
 
     /**
      * Create a new controller instance.
@@ -40,11 +42,12 @@ class ZonaController extends Controller
      */
     public function __construct()
     {
-        $this->zona     = new Zona;
-        $this->siswa    = new Siswa;
-        $this->sekolah  = new Sekolah;
-        $this->user     = new User;
-        $this->nilai    = new Nilai;
+        $this->zona          = new Zona;
+        $this->siswa         = new Siswa;
+        $this->sekolah       = new Sekolah;
+        $this->user          = new User;
+        $this->nilai         = new Nilai;
+        $this->admin_sekolah = new AdminSekolah;
     }
 
     /**
@@ -54,23 +57,47 @@ class ZonaController extends Controller
      */
     public function index(Request $request)
     {
+        $admin_sekolah = $this->admin_sekolah->where('admin_sekolah_id', Auth::user()->id)->first();
+
+        if(is_null($admin_sekolah) && $this->checkRole(['superadministrator']) === false){
+            $response = [];
+            return response()->json($response)
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', 'GET');
+        }
+
         if (request()->has('sort')) {
             list($sortCol, $sortDir) = explode('|', request()->sort);
 
-            $query = $this->zona->orderBy($sortCol, $sortDir);
+            if($this->checkRole(['superadministrator'])){
+                $query = $this->zona->orderBy($sortCol, $sortDir);
+            }else{
+                $query = $this->zona->where('user_id', $admin_sekolah->admin_sekolah_id)->orderBy($sortCol, $sortDir);
+            }
         } else {
-            $query = $this->zona->orderBy('id', 'asc');
+            if($this->checkRole(['superadministrator'])){
+                $query = $this->zona->orderBy('id', 'asc');
+            }else{
+                $query = $this->zona->where('user_id', $admin_sekolah->admin_sekolah_id)->orderBy('id', 'asc');
+            }
         }
 
         if ($request->exists('filter')) {
-            $query->where(function($q) use($request) {
-                $value = "%{$request->filter}%";
+            if($this->checkRole(['superadministrator'])){
+                $query->where(function($q) use($request) {
+                    $value = "%{$request->filter}%";
 
-                $q->where('nomor_un', 'like', $value)
-                    ->orWhere('lokasi_siswa', 'like', $value)
-                    ->orWhere('lokasi_sekolah', 'like', $value)
-                    ->orWhere('nilai', 'like', $value);
-            });
+                    $q->where('sekolah_id', 'like', $value)
+                        ->orWhere('admin_sekolah_id', 'like', $value);
+                });
+            }else{
+                $query->where(function($q) use($request, $admin_sekolah) {
+                    $value = "%{$request->filter}%";
+
+                    $q->where('sekolah_id', $admin_sekolah->sekolah_id)->where('sekolah_id', 'like', $value);
+                });
+            }
+
         }
 
         $perPage    = request()->has('per_page') ? (int) request()->per_page : null;
@@ -91,14 +118,6 @@ class ZonaController extends Controller
     {
         $zonas = $this->zona->with(['siswa', 'sekolah', 'user'])->get();
 
-        foreach ($zonas as $zona) {
-            if ($zona->siswa !== null) {
-                array_set($zona, 'label', $zona->siswa->nomor_un.' - '.$zona->siswa->nama_siswa);
-            } else {
-                array_set($zona, 'label', $zona->nomor_un.' - ');
-            }
-        }
-
         $response['zonas']      = $zonas;
         $response['error']      = false;
         $response['message']    = 'Success';
@@ -116,12 +135,21 @@ class ZonaController extends Controller
     {
         $user_id        = isset(Auth::User()->id) ? Auth::User()->id : null;
         $zona           = $this->zona->getAttributes();
-        $siswas         = $this->siswa->getAttributes();
+        //$siswas         = $this->siswa->getAttributes();
         $sekolahs       = $this->sekolah->getAttributes();
         $users          = $this->user->getAttributes();
         $users_special  = $this->user->all();
         $users_standar  = $this->user->findOrFail($user_id);
         $current_user   = Auth::User();
+
+        $admin_sekolah = $this->admin_sekolah->where('admin_sekolah_id', Auth::user()->id)->first();
+
+        if($this->checkRole(['superadministrator'])){
+            $siswas = $this->siswa->all();
+        }else{
+            $sekolah_id = $admin_sekolah->sekolah_id;
+            $siswas     = $this->siswa->where('sekolah_id', $sekolah_id)->get();
+        }
 
         foreach ($siswas as $siswa) {
             array_set($siswa, 'label', $siswa->nomor_un.' - '.$siswa->nama_siswa);
@@ -136,7 +164,7 @@ class ZonaController extends Controller
         if ($role_check) {
             $user_special = true;
 
-            foreach($users_special as $user){
+            foreach ($users_special as $user) {
                 array_set($user, 'label', $user->name);
             }
 
@@ -152,7 +180,7 @@ class ZonaController extends Controller
         array_set($current_user, 'label', $current_user->name);
 
         $response['zona']           = $zona;
-        $response['siswas']         = $siswas;
+        $response['siswa']          = $siswas;
         $response['sekolahs']       = $sekolahs;
         $response['users']          = $users;
         $response['user_special']   = $user_special;
@@ -210,10 +238,11 @@ class ZonaController extends Controller
                     'nomor_un'  => $zona->nomor_un,
                 ],
                 [
-                    'nomor_un'  => $zona->nomor_un,
-                    'zona'      => $zona->nilai,
-                    'total'     => null,
-                    'user_id'   => $zona->user_id,
+                    'nomor_un'      => $zona->nomor_un,
+                    'zona'          => $zona->nilai,
+                    'kegiatan_id'   => null,
+                    'total'         => null,
+                    'user_id'       => $zona->user_id,
                 ]
             );
 
@@ -276,14 +305,6 @@ class ZonaController extends Controller
         $users_standar  = $this->user->findOrFail($user_id);
         $current_user   = Auth::User();
 
-        if ($zona->siswa !== null) {
-            array_set($zona->siswa, 'label', $zona->siswa->nomor_un.' - '.$zona->siswa->nama_siswa);
-        }
-
-        if ($zona->sekolah !== null) {
-            array_set($zona->sekolah, 'label', $zona->sekolah->nama);
-        }
-
         $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
 
         if ($zona->user !== null) {
@@ -293,7 +314,7 @@ class ZonaController extends Controller
         if ($role_check) {
             $user_special = true;
 
-            foreach($users_special as $user){
+            foreach ($users_special as $user) {
                 array_set($user, 'label', $user->name);
             }
 
@@ -368,10 +389,11 @@ class ZonaController extends Controller
                     'nomor_un'  => $zona->nomor_un,
                 ],
                 [
-                    'nomor_un'  => $zona->nomor_un,
-                    'zona'      => $zona->nilai,
-                    'total'     => null,
-                    'user_id'   => $zona->user_id,
+                    'nomor_un'      => $zona->nomor_un,
+                    'zona'          => $zona->nilai,
+                    'kegiatan_id'   => null,
+                    'total'         => null,
+                    'user_id'       => $zona->user_id,
                 ]
             );
 
@@ -420,5 +442,10 @@ class ZonaController extends Controller
         }
 
         return json_encode($response);
+    }
+
+    protected function checkRole($role = array())
+    {
+        return Auth::user()->hasRole($role);
     }
 }

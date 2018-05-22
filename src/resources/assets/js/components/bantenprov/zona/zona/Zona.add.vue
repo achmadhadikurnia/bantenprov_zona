@@ -48,7 +48,6 @@
             <button type="reset" class="btn btn-secondary" @click="reset">Reset</button>
           </div>
         </div>
-
       </vue-form>
     </div>
   </div>
@@ -90,10 +89,13 @@ export default {
       .then(response => {
         if (response.data.status == true && response.data.error == false) {
           this.model.user = response.data.current_user;
+            response.data.siswa.forEach(element => {
+            this.siswa.push(element);
+            });
 
-          if(response.data.user_special == true){
+          if (response.data.user_special == true) {
             this.user = response.data.users;
-          }else{
+          } else {
             this.user.push(response.data.users);
           }
         } else {
@@ -116,29 +118,29 @@ export default {
         app.back();
       });
 
-    axios.get('api/siswa/get')
-      .then(response => {
-        if (response.data.status == true && response.data.error == false) {
-          this.siswa = response.data.siswas;
-        } else {
-          swal(
-            'Failed',
-            'Oops... '+response.data.message,
-            'error'
-          );
+    // axios.get('api/siswa/get')
+    //   .then(response => {
+    //     if (response.data.status == true && response.data.error == false) {
+    //       this.siswa = response.data.siswas;
+    //     } else {
+    //       swal(
+    //         'Failed',
+    //         'Oops... '+response.data.message,
+    //         'error'
+    //       );
 
-          app.back();
-        }
-      })
-      .catch(function(response) {
-        swal(
-          'Not Found',
-          'Oops... Your page is not found.',
-          'error'
-        );
+    //       app.back();
+    //     }
+    //   })
+    //   .catch(function(response) {
+    //     swal(
+    //       'Not Found',
+    //       'Oops... Your page is not found.',
+    //       'error'
+    //     );
 
-        app.back();
-      });
+    //     app.back();
+    //   });
   },
   methods: {
     onSubmit: function() {
@@ -159,7 +161,7 @@ export default {
           })
           .then(response => {
             if (response.data.status == true) {
-              if(response.data.error == false){
+              if (response.data.error == false) {
                 swal(
                   'Created',
                   'Yeah!!! Your data has been created.',
@@ -167,7 +169,7 @@ export default {
                 );
 
                 app.back();
-              }else{
+              } else {
                 swal(
                   'Failed',
                   'Oops... '+response.data.message,

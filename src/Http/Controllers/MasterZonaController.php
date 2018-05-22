@@ -81,10 +81,6 @@ class MasterZonaController extends Controller
     {
         $master_zonas = $this->master_zona->with(['user'])->get();
 
-        foreach ($master_zonas as $master_zona) {
-            array_set($master_zona, 'label', $master_zona->label);
-        }
-
         $response['master_zonas']   = $master_zonas;
         $response['error']          = false;
         $response['message']        = 'Success';
@@ -112,7 +108,7 @@ class MasterZonaController extends Controller
         if ($role_check) {
             $user_special = true;
 
-            foreach($users_special as $user){
+            foreach ($users_special as $user) {
                 array_set($user, 'label', $user->name);
             }
 
@@ -159,6 +155,7 @@ class MasterZonaController extends Controller
             $error      = true;
             $message    = $validator->errors()->first();
         } else {
+            $master_zona->id        = $request->input('kode');
             $master_zona->tingkat   = $request->input('tingkat');
             $master_zona->kode      = $request->input('kode');
             $master_zona->label     = $request->input('label');
@@ -180,7 +177,7 @@ class MasterZonaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\MasterZona  $master_zona
+     * @param  \App\MasterZona  $master-zona
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -198,7 +195,7 @@ class MasterZonaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Zona  $zona
+     * @param  \App\MasterZona  $master_zona
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -219,7 +216,7 @@ class MasterZonaController extends Controller
         if ($role_check) {
             $user_special = true;
 
-            foreach($users_special as $user){
+            foreach ($users_special as $user) {
                 array_set($user, 'label', $user->name);
             }
 
@@ -249,7 +246,7 @@ class MasterZonaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Zona  $zona
+     * @param  \App\MasterZona  $master_zona
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -267,6 +264,7 @@ class MasterZonaController extends Controller
             $error      = true;
             $message    = $validator->errors()->first();
         } else {
+            $master_zona->id        = $request->input('kode');
             $master_zona->tingkat   = $request->input('tingkat');
             $master_zona->kode      = $request->input('kode');
             $master_zona->label     = $request->input('label');
@@ -287,7 +285,7 @@ class MasterZonaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\MasterZona  $master-zona
+     * @param  \App\MasterZona  $master_zona
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
