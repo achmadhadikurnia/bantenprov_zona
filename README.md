@@ -251,7 +251,7 @@ Vue.component('zona-pie-03', ZonaPie03);
             },
             meta: {
                 title: "Master Zona",
-            }
+            },
         },
         // Zona
         {
@@ -263,7 +263,7 @@ Vue.component('zona-pie-03', ZonaPie03);
             },
             meta: {
                 title: "Zona",
-            }
+            },
         },
         //...
     ]
@@ -287,7 +287,7 @@ Vue.component('zona-pie-03', ZonaPie03);
             },
             meta: {
                 title: "Master Zona",
-            }
+            },
         },
         {
             path: '/admin/master-zona/create',
@@ -298,7 +298,7 @@ Vue.component('zona-pie-03', ZonaPie03);
             },
             meta: {
                 title: "Add Master Zona",
-            }
+            },
         },
         {
             path: '/admin/master-zona/:id',
@@ -309,7 +309,7 @@ Vue.component('zona-pie-03', ZonaPie03);
             },
             meta: {
                 title: "View Master Zona",
-            }
+            },
         },
         {
             path: '/admin/master-zona/:id/edit',
@@ -320,7 +320,7 @@ Vue.component('zona-pie-03', ZonaPie03);
             },
             meta: {
                 title: "Edit Master Zona",
-            }
+            },
         },
         // Zona
         {
@@ -332,7 +332,7 @@ Vue.component('zona-pie-03', ZonaPie03);
             },
             meta: {
                 title: "Zona",
-            }
+            },
         },
         {
             path: '/admin/zona/create',
@@ -343,7 +343,7 @@ Vue.component('zona-pie-03', ZonaPie03);
             },
             meta: {
                 title: "Add Zona",
-            }
+            },
         },
         {
             path: '/admin/zona/:id',
@@ -354,7 +354,7 @@ Vue.component('zona-pie-03', ZonaPie03);
             },
             meta: {
                 title: "View Zona",
-            }
+            },
         },
         {
             path: '/admin/zona/:id/edit',
@@ -365,7 +365,7 @@ Vue.component('zona-pie-03', ZonaPie03);
             },
             meta: {
                 title: "Edit Zona",
-            }
+            },
         },
         //...
     ]
