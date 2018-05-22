@@ -17,19 +17,19 @@ Zona
 - Development snapshot
 
 ```bash
-$ composer require bantenprov/zona:dev-master
+composer require bantenprov/zona:dev-master
 ```
 
 - Latest release:
 
 ```bash
-$ composer require bantenprov/zona
+composer require bantenprov/zona
 ```
 
 ### Download via github
 
 ```bash
-$ git clone https://github.com/bantenprov/zona.git
+git clone https://github.com/bantenprov/zona.git
 ```
 
 #### Edit `config/app.php` :
@@ -48,12 +48,12 @@ $ git clone https://github.com/bantenprov/zona.git
     //...
     Bantenprov\Zona\ZonaServiceProvider::class,
     //...
+],
 ```
 
 #### Edit `app/Http/Kernel.php`
 
 ```php
-
 protected $routeMiddleware = [
     'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
     'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
@@ -61,38 +61,45 @@ protected $routeMiddleware = [
     'can' => \Illuminate\Auth\Middleware\Authorize::class,
     'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
     'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-    
-    // -----------------
-
+    //...
     'role' => \Laratrust\Middleware\LaratrustRole::class,
     'permission' => \Laratrust\Middleware\LaratrustPermission::class,
     'ability' => \Laratrust\Middleware\LaratrustAbility::class,
+    //...
 ];
-
 ```
 
 #### Lakukan migrate :
 
 ```bash
-$ php artisan migrate
+php artisan migrate
 ```
 
 #### Lakukan publish semua komponen :
 
 ```bash
-$ php artisan vendor:publish --tag=zona-publish
+php artisan vendor:publish --tag=zona-publish
 ```
 
 #### Lakukan auto dump :
 
 ```bash
-$ composer dump-autoload
+composer dump-autoload
 ```
 
 #### Lakukan seeding :
 
+- Seeding semua seeder
+
 ```bash
-$ php artisan db:seed --class=BantenprovZonaSeeder
+php artisan db:seed --class=BantenprovZonaSeeder
+```
+
+- Seeding secara individual
+
+```bash
+php artisan db:seed --class=BantenprovZonaSeederMasterZona
+php artisan db:seed --class=BantenprovZonaSeederZona
 ```
 
 #### Edit menu `resources/assets/js/menu.js`
@@ -108,13 +115,13 @@ $ php artisan db:seed --class=BantenprovZonaSeeder
         {
             name: 'Master Zona',
             link: '/dashboard/master-zona',
-            icon: 'fa fa-angle-double-right'
+            icon: 'fa fa-angle-double-right',
         },
         // Zona
         {
             name: 'Zona',
             link: '/dashboard/zona',
-            icon: 'fa fa-angle-double-right'
+            icon: 'fa fa-angle-double-right',
         },
         //...
     ]
@@ -132,13 +139,13 @@ $ php artisan db:seed --class=BantenprovZonaSeeder
         {
             name: 'Master Zona',
             link: '/admin/master-zona',
-            icon: 'fa fa-angle-double-right'
+            icon: 'fa fa-angle-double-right',
         },
         // Zona
         {
             name: 'Zona',
             link: '/admin/zona',
-            icon: 'fa fa-angle-double-right'
+            icon: 'fa fa-angle-double-right',
         },
         //...
     ]
@@ -240,11 +247,11 @@ Vue.component('zona-pie-03', ZonaPie03);
             components: {
                 main: resolve => require(['~/components/views/bantenprov/zona/master-zona/MasterZonaDashboard.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Master Zona"
-            }
+                title: "Master Zona",
+            },
         },
         // Zona
         {
@@ -252,11 +259,11 @@ Vue.component('zona-pie-03', ZonaPie03);
             components: {
                 main: resolve => require(['~/components/views/bantenprov/zona/zona/ZonaDashboard.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Zona"
-            }
+                title: "Zona",
+            },
         },
         //...
     ]
@@ -276,44 +283,44 @@ Vue.component('zona-pie-03', ZonaPie03);
             components: {
                 main: resolve => require(['~/components/bantenprov/zona/master-zona/MasterZona.index.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Master Zona"
-            }
+                title: "Master Zona",
+            },
         },
         {
             path: '/admin/master-zona/create',
             components: {
                 main: resolve => require(['~/components/bantenprov/zona/master-zona/MasterZona.add.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Add Master Zona"
-            }
+                title: "Add Master Zona",
+            },
         },
         {
             path: '/admin/master-zona/:id',
             components: {
                 main: resolve => require(['~/components/bantenprov/zona/master-zona/MasterZona.show.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "View Master Zona"
-            }
+                title: "View Master Zona",
+            },
         },
         {
             path: '/admin/master-zona/:id/edit',
             components: {
                 main: resolve => require(['~/components/bantenprov/zona/master-zona/MasterZona.edit.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Edit Master Zona"
-            }
+                title: "Edit Master Zona",
+            },
         },
         // Zona
         {
@@ -321,44 +328,44 @@ Vue.component('zona-pie-03', ZonaPie03);
             components: {
                 main: resolve => require(['~/components/bantenprov/zona/zona/Zona.index.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Zona"
-            }
+                title: "Zona",
+            },
         },
         {
             path: '/admin/zona/create',
             components: {
                 main: resolve => require(['~/components/bantenprov/zona/zona/Zona.add.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Add Zona"
-            }
+                title: "Add Zona",
+            },
         },
         {
             path: '/admin/zona/:id',
             components: {
                 main: resolve => require(['~/components/bantenprov/zona/zona/Zona.show.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "View Zona"
-            }
+                title: "View Zona",
+            },
         },
         {
             path: '/admin/zona/:id/edit',
             components: {
                 main: resolve => require(['~/components/bantenprov/zona/zona/Zona.edit.vue'], resolve),
                 navbar: resolve => require(['~/components/Navbar.vue'], resolve),
-                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve)
+                sidebar: resolve => require(['~/components/Sidebar.vue'], resolve),
             },
             meta: {
-                title: "Edit Zona"
-            }
+                title: "Edit Zona",
+            },
         },
         //...
     ]
