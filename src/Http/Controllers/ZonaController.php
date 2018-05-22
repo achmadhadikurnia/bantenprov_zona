@@ -65,7 +65,7 @@ class ZonaController extends Controller
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', 'GET');
         }
-        
+
         if (request()->has('sort')) {
             list($sortCol, $sortDir) = explode('|', request()->sort);
 
@@ -78,7 +78,7 @@ class ZonaController extends Controller
             if($this->checkRole(['superadministrator'])){
                 $query = $this->zona->orderBy('id', 'asc');
             }else{
-                $query = $this->zona->where('user_id', $admin_sekolah->admin_sekolah_id)->orderBy('id', 'asc');            
+                $query = $this->zona->where('user_id', $admin_sekolah->admin_sekolah_id)->orderBy('id', 'asc');
             }
         }
 
@@ -238,10 +238,11 @@ class ZonaController extends Controller
                     'nomor_un'  => $zona->nomor_un,
                 ],
                 [
-                    'nomor_un'  => $zona->nomor_un,
-                    'zona'      => $zona->nilai,
-                    'total'     => null,
-                    'user_id'   => $zona->user_id,
+                    'nomor_un'      => $zona->nomor_un,
+                    'zona'          => $zona->nilai,
+                    'kegiatan_id'   => null,
+                    'total'         => null,
+                    'user_id'       => $zona->user_id,
                 ]
             );
 
@@ -388,10 +389,11 @@ class ZonaController extends Controller
                     'nomor_un'  => $zona->nomor_un,
                 ],
                 [
-                    'nomor_un'  => $zona->nomor_un,
-                    'zona'      => $zona->nilai,
-                    'total'     => null,
-                    'user_id'   => $zona->user_id,
+                    'nomor_un'      => $zona->nomor_un,
+                    'zona'          => $zona->nilai,
+                    'kegiatan_id'   => null,
+                    'total'         => null,
+                    'user_id'       => $zona->user_id,
                 ]
             );
 
