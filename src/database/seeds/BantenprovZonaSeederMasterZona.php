@@ -18,7 +18,7 @@ class BantenprovMasterZonaSeeder extends Seeder
     protected $NC      ="\033[0m";
     /* File name */
     /* location : /databse/seeds/file_name.csv */
-    protected $fileName = "BantenprovMasterZonaSeeder.csv";
+    protected $fileName = "BantenprovZonaSeederMasterZona.csv";
     /* text info : default (true) */
     protected $textInfo = true;
     /* model class */
@@ -40,37 +40,46 @@ class BantenprovMasterZonaSeeder extends Seeder
     protected function insertData()
     {
         /* silahkan di rubah sesuai kebutuhan */
+        $row = 1;
+        $total = count($this->readCSV());
+
+        $this->greenText("\n[ SEEDER START ]\n");
+
         foreach($this->readCSV() as $data){
 
-            
-            $this->model->create([
-                'id' => $data['id'],
-                'user_id' => $data['user_id'],
-                'tingkat' => $data['tingkat'],
-                'kode' => $data['kode'],
-                'label' => $data['label'],
-            ]);
-        
+            $this->model->withTrashed()->updateOrCreate(
+                [
+                    'id'    => $data['id'],
+                ],
+                [
+                    'id'        => $data['id'],
+                    'tingkat'   => $data['tingkat'],
+                    'kode'      => $data['kode'],
+                    'label'     => $data['label'],
+                    'user_id'   => $data['user_id'],
+                ]
+            );
 
+            if($this->textInfo){
+                echo"\n";
+                echo "============[DATA {$row}/{$total}]============\n";
+                $this->orangeText('id : ').$this->greenText($data['id']);
+                echo"\n";
+                $this->orangeText('user_id : ').$this->greenText($data['user_id']);
+                echo"\n";
+                $this->orangeText('tingkat : ').$this->greenText($data['tingkat']);
+                echo"\n";
+                $this->orangeText('kode : ').$this->greenText($data['kode']);
+                echo"\n";
+                $this->orangeText('label : ').$this->greenText($data['label']);
+                echo"\n";
+                echo "============[DATA {$row}/{$total}]============\n";
+            }
+
+            $row++;
         }
 
-        if($this->textInfo){                
-            echo "============[DATA]============\n";
-            $this->orangeText('id : ').$this->greenText($data['id']);
-            echo"\n";
-            $this->orangeText('user_id : ').$this->greenText($data['user_id']);
-            echo"\n";
-            $this->orangeText('tingkat : ').$this->greenText($data['tingkat']);
-            echo"\n";
-            $this->orangeText('kode : ').$this->greenText($data['kode']);
-            echo"\n";
-            $this->orangeText('label : ').$this->greenText($data['label']);
-            echo"\n";      
-            echo "============[DATA]============\n\n";
-        }
-
-        $this->greenText('[ SEEDER DONE ]');
-        echo"\n\n";
+        $this->greenText("\n[ SEEDER DONE ]\n");
     }
     /* text color: orange */
     protected function orangeText($text)
@@ -89,12 +98,13 @@ class BantenprovMasterZonaSeeder extends Seeder
         $all_data = array();
         $row = 1;
         while(($data = fgetcsv($file, 1000, ",")) !== FALSE){
-            $all_data[] = [ 'id'        => $data[0],
-                            'user_id'   => $data[1],
-                            'tingkat'   => $data[2],
-                            'kode'      => $data[3],
-                            'label'     => $data[4],
-                          ];
+            $all_data[] = [
+                'id'        => $data[0],
+                'tingkat'   => $data[1],
+                'kode'      => $data[2],
+                'label'     => $data[3],
+                'user_id'   => $data[4],
+            ];
         }
         fclose($file);
         return  $all_data;
